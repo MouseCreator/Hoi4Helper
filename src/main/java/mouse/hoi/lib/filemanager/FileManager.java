@@ -1,4 +1,4 @@
-package mouse.hoi.filemanager;
+package mouse.hoi.lib.filemanager;
 
 import java.util.List;
 

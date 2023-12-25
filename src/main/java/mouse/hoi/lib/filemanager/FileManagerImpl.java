@@ -1,4 +1,4 @@
-package mouse.hoi.filemanager;
+package mouse.hoi.lib.filemanager;
 
 import org.springframework.stereotype.Service;
 
