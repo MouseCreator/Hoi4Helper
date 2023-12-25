@@ -7,4 +7,5 @@ public interface FileManager {
     void write(String filename, String content);
     void append(String filename, String content);
     List<String> readLines(String filename);
+    void clear(String filename);
 }

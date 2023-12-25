@@ -46,4 +46,9 @@ public class FileManagerImpl implements FileManager {
             return null;
         }
     }
+
+    @Override
+    public void clear(String filename) {
+        write(filename, "");
+    }
 }
