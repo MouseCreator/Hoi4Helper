@@ -9,4 +9,5 @@ public interface Property {
     boolean isEmpty();
     List<Property> getChildren();
     String print();
+    PropertyType type();
 }

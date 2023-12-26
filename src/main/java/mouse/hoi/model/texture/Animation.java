@@ -4,46 +4,46 @@ import lombok.Data;
 import mouse.hoi.model.DoublePosition;
 import mouse.hoi.parser.annotation.Accuracy;
 import mouse.hoi.parser.annotation.Block;
-import mouse.hoi.parser.annotation.Field;
-import mouse.hoi.parser.annotation.UseBrackets;
+import mouse.hoi.parser.annotation.ObjField;
+import mouse.hoi.parser.annotation.UseQuotes;
 
 @Data
 @Block(name = "animation")
 public class Animation {
-    @Field(text = "animationmaskfile")
-    @UseBrackets
+    @ObjField(text = "animationmaskfile")
+    @UseQuotes
     private String maskFile;
 
-    @Field(text = "animationtexturefile")
-    @UseBrackets
+    @ObjField(text = "animationtexturefile")
+    @UseQuotes
     private String textureFile;
 
     @Accuracy(digits = 1)
-    @Field(text = "animationrotation")
+    @ObjField(text = "animationrotation")
     private Double rotation;
 
-    @Field(text = "animationlooping")
+    @ObjField(text = "animationlooping")
     private Boolean looping;
 
-    @Field(text = "animationtime")
+    @ObjField(text = "animationtime")
     @Accuracy(digits = 2)
     private Double timeSeconds;
 
-    @Field(text = "animationdelay")
+    @ObjField(text = "animationdelay")
     @Accuracy(digits = 2)
     private Double delaySeconds;
 
-    @Field(text = "animationblendmode")
-    @UseBrackets
+    @ObjField(text = "animationblendmode")
+    @UseQuotes
     private String blendMode;
 
-    @Field(text = "animationtype")
-    @UseBrackets
+    @ObjField(text = "animationtype")
+    @UseQuotes
     private String type;
 
-    @Field(text = "animationrotationoffset")
+    @ObjField(text = "animationrotationoffset")
     private DoublePosition rotationOffset;
 
-    @Field(text = "animationtexturescale")
+    @ObjField(text = "animationtexturescale")
     private DoublePosition textureScale;
 }

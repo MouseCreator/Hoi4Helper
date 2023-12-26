@@ -48,6 +48,11 @@ public class SimpleProperty implements Property {
         return value + ";";
     }
 
+    @Override
+    public PropertyType type() {
+        return PropertyType.SIMPLE;
+    }
+
     public void setValue(String value) {
         this.value = value;
     }

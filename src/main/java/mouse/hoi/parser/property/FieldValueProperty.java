@@ -55,4 +55,9 @@ public class FieldValueProperty implements Property {
     public String print() {
         return key + "=" + value + ";";
     }
+
+    @Override
+    public PropertyType type() {
+        return PropertyType.FIELD_VALUE;
+    }
 }

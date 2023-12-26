@@ -2,8 +2,8 @@ package mouse.hoi.model.texture;
 
 import lombok.Data;
 import mouse.hoi.parser.annotation.Block;
-import mouse.hoi.parser.annotation.Field;
-import mouse.hoi.parser.annotation.UseBrackets;
+import mouse.hoi.parser.annotation.ObjField;
+import mouse.hoi.parser.annotation.UseQuotes;
 
 import java.util.List;
 
@@ -11,17 +11,17 @@ import java.util.List;
 @Block(name = "SpriteType")
 public class SpriteType {
 
-    @Field(text = "name")
-    @UseBrackets
+    @ObjField(text = "name")
+    @UseQuotes
     private String name;
-    @Field(text = "texturefile")
-    @UseBrackets
+    @ObjField(text = "texturefile")
+    @UseQuotes
     private String textureFile;
-    @Field(text = "effectFile")
-    @UseBrackets
+    @ObjField(text = "effectFile")
+    @UseQuotes
     private String effectFile;
-    @Field(text = "legacy_lazy_load")
+    @ObjField(text = "legacy_lazy_load")
     private Boolean lazyLoad;
-    @Field(text = "animation")
+    @ObjField(text = "animation")
     private List<Animation> animationList;
 }

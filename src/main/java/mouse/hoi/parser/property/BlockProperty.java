@@ -69,4 +69,9 @@ public class BlockProperty implements Property {
         builder.append("}");
         return builder.toString();
     }
+
+    @Override
+    public PropertyType type() {
+        return PropertyType.BLOCK;
+    }
 }
