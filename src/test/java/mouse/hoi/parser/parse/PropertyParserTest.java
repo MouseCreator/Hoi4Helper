@@ -25,6 +25,8 @@ class PropertyParserTest {
                     c = "GFX_"
                     d = { e = { } }
                 }
+                
+                
                 b = {
                     f = 0.05
                     g = "hello"
