@@ -8,4 +8,5 @@ public interface Property {
     String getValue();
     boolean isEmpty();
     List<Property> getChildren();
+    String print();
 }

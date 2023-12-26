@@ -1,9 +1,11 @@
 package mouse.hoi.parser.property;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 @EqualsAndHashCode
+@ToString
 public class SimpleProperty implements Property {
 
     private String value;
@@ -41,7 +43,13 @@ public class SimpleProperty implements Property {
         throw new UnsupportedOperationException("SimpleProperty does not have child properties");
     }
 
+    @Override
+    public String print() {
+        return value + ";";
+    }
+
     public void setValue(String value) {
         this.value = value;
     }
+
 }

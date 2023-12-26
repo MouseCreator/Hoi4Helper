@@ -12,6 +12,10 @@ public class TokenCollection {
         this.tokens = new ArrayList<>(tokens);
     }
 
+    public TokenCollection(TokenCollection tokenCollection) {
+        this.tokens = new ArrayList<>(tokenCollection.tokens);
+    }
+
     public void addAll(List<String> other) {
         tokens.addAll(other);
     }
@@ -39,4 +43,11 @@ public class TokenCollection {
     }
 
 
+    public String look() {
+        return tokens.get(0);
+    }
+
+    public void addToken(String token) {
+        tokens.add(token);
+    }
 }

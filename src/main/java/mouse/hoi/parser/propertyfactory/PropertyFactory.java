@@ -6,6 +6,8 @@ import mouse.hoi.parser.property.Property;
 import mouse.hoi.parser.property.SimpleProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PropertyFactory {
 
@@ -47,7 +49,7 @@ public class PropertyFactory {
             return this;
         }
 
-        public BlockPropertyCreator with(Property... children) {
+        public BlockPropertyCreator with(List<Property> children) {
             for (Property ch : children) {
                 blockProperty.addChild(ch);
             }

@@ -2,10 +2,12 @@ package mouse.hoi.parser.property;
 
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class FieldValueProperty implements Property {
 
     private String key;
@@ -47,5 +49,10 @@ public class FieldValueProperty implements Property {
     @Override
     public List<Property> getChildren() {
         throw new UnsupportedOperationException("FieldValueProperty does not have child properties");
+    }
+
+    @Override
+    public String print() {
+        return key + "=" + value + ";";
     }
 }

@@ -33,13 +33,8 @@ public class SimpleFileFormatter implements FileFormatter {
 
         Pattern pattern = Pattern.compile("\"(.*?)\"|\\S+");
         Matcher matcher = pattern.matcher(input);
-        boolean insideQuotes = true;
         while (matcher.find()) {
             String match = matcher.group();
-            insideQuotes = !insideQuotes;
-            if (match.startsWith("\"") && match.endsWith("\"") && insideQuotes) {
-                match = match.substring(1, match.length() - 1);
-            }
             splitList.add(match);
         }
 

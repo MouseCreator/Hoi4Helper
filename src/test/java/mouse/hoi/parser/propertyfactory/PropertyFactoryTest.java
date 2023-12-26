@@ -6,6 +6,8 @@ import mouse.hoi.parser.property.SimpleProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PropertyFactoryTest {
@@ -22,7 +24,7 @@ class PropertyFactoryTest {
         BlockProperty blockProperty = propertyFactory.block()
                 .withKey("Hello")
                 .withValue("World")
-                .with(new SimpleProperty("D")).get();
+                .with(List.of(new SimpleProperty("D"))).get();
         assertEquals("Hello", blockProperty.getKey());
         assertEquals("World", blockProperty.getValue());
         assertEquals(1, blockProperty.getChildren().size());

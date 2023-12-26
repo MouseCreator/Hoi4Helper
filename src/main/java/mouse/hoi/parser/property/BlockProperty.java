@@ -1,10 +1,12 @@
 package mouse.hoi.parser.property;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 @EqualsAndHashCode
+@ToString
 public class BlockProperty implements Property {
     private String key;
     private String value;
@@ -55,5 +57,16 @@ public class BlockProperty implements Property {
     @Override
     public List<Property> getChildren() {
         return children;
+    }
+
+    @Override
+    public String print() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(key).append("=").append(value).append("{");
+        for (Property property : children) {
+            builder.append(property.print());
+        }
+        builder.append("}");
+        return builder.toString();
     }
 }
