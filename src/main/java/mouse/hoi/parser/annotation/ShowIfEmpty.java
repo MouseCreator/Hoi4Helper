@@ -1,4 +1,4 @@
 package mouse.hoi.parser.annotation;
 
-public @interface SkipIfEmpty {
+public @interface ShowIfEmpty {
 }

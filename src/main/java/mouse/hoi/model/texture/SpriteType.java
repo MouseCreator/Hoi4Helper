@@ -3,7 +3,6 @@ package mouse.hoi.model.texture;
 import lombok.Data;
 import mouse.hoi.parser.annotation.Block;
 import mouse.hoi.parser.annotation.Field;
-import mouse.hoi.parser.annotation.SkipIfEmpty;
 import mouse.hoi.parser.annotation.UseBrackets;
 
 import java.util.List;
@@ -24,6 +23,5 @@ public class SpriteType {
     @Field(text = "legacy_lazy_load")
     private Boolean lazyLoad;
     @Field(text = "animation")
-    @SkipIfEmpty
     private List<Animation> animationList;
 }

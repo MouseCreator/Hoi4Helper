@@ -32,6 +32,11 @@ public class SimpleProperty implements Property {
     }
 
     @Override
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
+    @Override
     public List<Property> getChildren() {
         throw new UnsupportedOperationException("SimpleProperty does not have child properties");
     }

@@ -48,6 +48,11 @@ public class BlockProperty implements Property {
     }
 
     @Override
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
+    @Override
     public List<Property> getChildren() {
         return children;
     }

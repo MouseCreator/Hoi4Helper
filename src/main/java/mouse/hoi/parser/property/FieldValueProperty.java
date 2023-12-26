@@ -40,6 +40,11 @@ public class FieldValueProperty implements Property {
     }
 
     @Override
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
+
+    @Override
     public List<Property> getChildren() {
         throw new UnsupportedOperationException("FieldValueProperty does not have child properties");
     }
