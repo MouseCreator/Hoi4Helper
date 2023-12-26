@@ -62,4 +62,19 @@ class SimpleFileFormatterTest {
         List<String> s = simpleFileFormatter.formatAndTokenize(content);
         assertEquals("[A, =, \"hello world\", b, =, {, c, =, \"a\", }]", s.toString());
     }
+
+    @Test
+    void noCommentsTest() {
+
+        String content= """
+                # Comment
+                # Comment
+                Actual #Not a comment
+                #Comment
+                    #Comment#Double#
+                """;
+
+        String s = simpleFileFormatter.formatFileContent(content);
+        assertEquals("Actual", s);
+    }
 }
