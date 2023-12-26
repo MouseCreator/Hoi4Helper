@@ -3,6 +3,8 @@ package mouse.hoi.parser.parse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleFileFormatterTest {
@@ -46,6 +48,18 @@ class SimpleFileFormatterTest {
                 """;
 
         String s = simpleFileFormatter.formatFileContent(content);
-        System.out.println(s);
+        assertEquals("A = { d = { a = 0 } b = { c } } if = { } }", s);
+    }
+
+    @Test
+    void tokenizeTest() {
+
+        String content= """
+                A = "hello world"
+                b   = { c   = "a" }
+                """;
+
+        List<String> s = simpleFileFormatter.formatAndTokenize(content);
+        assertEquals("[A, =, \"hello world\", b, =, {, c, =, \"a\", }]", s.toString());
     }
 }

@@ -55,4 +55,6 @@ class PropertyFactoryTest {
         assertEquals("A", property2.getKey());
         assertEquals("B", property2.getValue());
     }
+
+
 }

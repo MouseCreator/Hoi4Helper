@@ -26,6 +26,35 @@ public class SimpleFileFormatter implements FileFormatter {
         }
         return lines;
     }
+
+    @Override
+    public List<String> toTokens(String input) {
+        List<String> splitList = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile("\"(.*?)\"|\\S+");
+        Matcher matcher = pattern.matcher(input);
+        boolean insideQuotes = true;
+        while (matcher.find()) {
+            String match = matcher.group();
+            insideQuotes = !insideQuotes;
+            if (match.startsWith("\"") && match.endsWith("\"") && insideQuotes) {
+                match = match.substring(1, match.length() - 1);
+            }
+            splitList.add(match);
+        }
+
+        return splitList;
+    }
+
+    private String inQuotes(String str) {
+        return '"' + str + '"';
+    }
+
+    @Override
+    public List<String> formatAndTokenize(String content) {
+        return toTokens(formatFileContent(content));
+    }
+
     private String removeCommentsAndMerge(List<String> lines) {
         StringBuilder builder = new StringBuilder();
         for (String line : lines) {
