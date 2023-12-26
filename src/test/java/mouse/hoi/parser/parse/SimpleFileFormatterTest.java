@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileFormatterTest {
-    private FileFormatter fileFormatter;
+class SimpleFileFormatterTest {
+    private SimpleFileFormatter simpleFileFormatter;
 
     @BeforeEach
     void setUp(){
-         fileFormatter = new FileFormatter();
+         simpleFileFormatter = new SimpleFileFormatter();
     }
     @Test
     void formatFileContent_Regular() {
@@ -23,7 +23,7 @@ class FileFormatterTest {
                 }
                 """;
 
-        String s = fileFormatter.formatFileContent(content);
+        String s = simpleFileFormatter.formatFileContent(content);
         assertEquals("A = { b = { c } }", s);
     }
 
@@ -45,7 +45,7 @@ class FileFormatterTest {
                 }
                 """;
 
-        String s = fileFormatter.formatFileContent(content);
+        String s = simpleFileFormatter.formatFileContent(content);
         System.out.println(s);
     }
 }
