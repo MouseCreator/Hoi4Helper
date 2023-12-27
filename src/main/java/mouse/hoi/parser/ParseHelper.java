@@ -57,4 +57,19 @@ public class ParseHelper {
         Class<?> fieldType = field.getType();
         return List.class.isAssignableFrom(fieldType) || Set.class.isAssignableFrom(fieldType);
     }
+
+    public Class<?> getGeneric(Field field) {
+        Type genericType = field.getGenericType();
+
+        if (genericType instanceof ParameterizedType parameterizedType) {
+            Type[] typeArguments = parameterizedType.getActualTypeArguments();
+
+            if (typeArguments.length > 0) {
+                return (Class<?>) typeArguments[0];
+            }
+            throw new IllegalArgumentException("No generic type for field: " + field);
+        }
+        throw new IllegalArgumentException("Generic type is not instance of Parametrized type for field: " + field);
+
+    }
 }

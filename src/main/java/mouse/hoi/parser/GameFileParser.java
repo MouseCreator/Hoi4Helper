@@ -123,8 +123,9 @@ public class GameFileParser {
     }
 
     private void pushToCollection(Object model, Field field, List<Property> propertiesByKey) {
+        Class<?> generic = helper.getGeneric(field);
         for (Property property : propertiesByKey) {
-            Object instance = getInstanceFromProperty(field, property);
+            Object instance = parseInstanceOfClass(generic, property);
             helper.push(model, field, instance);
         }
     }
@@ -218,7 +219,7 @@ public class GameFileParser {
     }
 
     private void validateBlockName(Property property, Class<?> modelClass) {
-        Block blockAnnotation = modelClass.getDeclaredAnnotation(Block.class);
+        Block blockAnnotation = modelClass.getAnnotation(Block.class);
         if(blockAnnotation == null) {
             throw new PropertyParseException("Provided class "
                     + modelClass.getSimpleName()

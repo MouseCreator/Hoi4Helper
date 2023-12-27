@@ -3,10 +3,10 @@ package mouse.hoi.factory;
 import mouse.hoi.model.DoublePosition;
 import mouse.hoi.model.texture.Animation;
 import mouse.hoi.util.DefConstants;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class AnimationFactory {
+@Component
+public class AnimationFactory implements SimpleModelFactory {
 
     private final DefConstants defConstants;
 
@@ -14,9 +14,9 @@ public class AnimationFactory {
         this.defConstants = defConstants;
     }
 
-    public Animation defaultAnimation(String forFile) {
+    public Animation get() {
         Animation animation = new Animation();
-        animation.setMaskFile(forFile);
+        animation.setMaskFile("");
         animation.setTextureFile(defConstants.getDefaultOverlay());
         animation.setRotation(-90.0);
         animation.setLooping(false);
@@ -27,5 +27,10 @@ public class AnimationFactory {
         animation.setRotationOffset(DoublePosition.zeros());
         animation.setTextureScale(DoublePosition.ones());
         return animation;
+    }
+
+    @Override
+    public Class<?> getModelClass() {
+        return Animation.class;
     }
 }

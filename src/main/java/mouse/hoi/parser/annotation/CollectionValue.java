@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Block {
-    String name();
+@Target(ElementType.FIELD)
+public @interface CollectionValue {
+    String type(); /* Tag, resource, building etc. */
 }

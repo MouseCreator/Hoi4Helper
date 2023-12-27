@@ -1,8 +1,12 @@
 package mouse.hoi.model;
 
 import lombok.Data;
+import mouse.hoi.parser.annotation.*;
+import mouse.hoi.parser.style.PrintStyle;
 
 @Data
+@Block(name = "pos")
+@Style(printStyle = PrintStyle.SIMPLE)
 public class DoublePosition {
 
     public static DoublePosition get(double x, double y) {
@@ -11,9 +15,15 @@ public class DoublePosition {
         doublePosition.y = y;
         return doublePosition;
     }
+    @Accuracy
+    @RequireField
+    @ObjField(text = "x")
+    private Double x;
 
-    private double x;
-    private double y;
+    @Accuracy
+    @RequireField
+    @ObjField(text = "y")
+    private Double y;
 
     public static DoublePosition zeros() {
         return get(0,0);

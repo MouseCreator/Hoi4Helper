@@ -6,7 +6,7 @@ import mouse.hoi.parser.annotation.ObjField;
 
 import java.util.List;
 @Data
-@Block(name = "SpriteTypes")
+@Block(name = "spriteTypes")
 public class SpriteTypes {
 
     @ObjField(text = "SpriteType")
