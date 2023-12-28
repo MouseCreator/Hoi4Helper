@@ -6,6 +6,8 @@ import mouse.hoi.parser.annotation.Factory;
 import mouse.hoi.parser.annotation.FactoryFor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Factory
 @Component
 public class SpriteTypeFactory {
@@ -16,6 +18,8 @@ public class SpriteTypeFactory {
 
     @FactoryFor
     public SpriteTypes getSpriteTypes() {
-        return new SpriteTypes();
+        SpriteTypes spriteTypes = new SpriteTypes();
+        spriteTypes.setSpriteTypes(new ArrayList<>());
+        return spriteTypes;
     }
 }

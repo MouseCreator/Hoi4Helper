@@ -6,6 +6,6 @@ import java.util.Collection;
 
 public interface SimpleCollectionManager {
 
-    <T> SimpleCollection<T> merge(Class<? extends SimpleCollection<T>> targetClass,
+    <T, R extends SimpleCollection<T>> R merge(Class<R> targetClass,
                                   Collection<SimpleCollection<T>> simpleCollections);
 }

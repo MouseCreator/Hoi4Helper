@@ -16,11 +16,12 @@ public class SimpleCollectionManagerImpl implements SimpleCollectionManager {
         this.modelCreator = modelCreator;
     }
 
+
+
     @Override
-    public <T> SimpleCollection<T> merge(Class<? extends SimpleCollection<T>> targetClass,
-                                         Collection<SimpleCollection<T>> simpleCollections) {
+    public <T, R extends SimpleCollection<T>> R merge(Class<R> targetClass, Collection<SimpleCollection<T>> simpleCollections) {
         Object obj = modelCreator.lookup(targetClass);
-        SimpleCollection<T> resultCollection = targetClass.cast(obj);
+        R resultCollection = targetClass.cast(obj);
         for (SimpleCollection<T> included : simpleCollections) {
             resultCollection.get().addAll(included.get());
         }
