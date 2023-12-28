@@ -16,7 +16,7 @@ public class AnimationFactory implements SimpleModelFactory {
 
     public Animation get() {
         Animation animation = new Animation();
-        animation.setMaskFile("");
+        animation.setMaskFile(null);
         animation.setTextureFile(defConstants.getDefaultOverlay());
         animation.setRotation(-90.0);
         animation.setLooping(false);

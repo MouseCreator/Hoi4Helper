@@ -1,13 +1,6 @@
 package mouse.hoi.parser;
 
-import mouse.hoi.factory.AnimationFactory;
 import mouse.hoi.factory.SimpleModelFactory;
-import mouse.hoi.lib.scanner.PackageScanner;
-import mouse.hoi.model.texture.Animation;
-import mouse.hoi.model.texture.SpriteType;
-import mouse.hoi.model.texture.SpriteTypes;
-import mouse.hoi.parser.annotation.Block;
-import mouse.hoi.util.DefConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
