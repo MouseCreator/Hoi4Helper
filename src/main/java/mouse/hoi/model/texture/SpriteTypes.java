@@ -15,7 +15,7 @@ public class SpriteTypes implements SimpleCollection<SpriteType> {
     List<SpriteType> spriteTypes;
 
     @Override
-    public Collection<SpriteType> get() {
+    public Collection<SpriteType> getCollection() {
         return spriteTypes;
     }
 }

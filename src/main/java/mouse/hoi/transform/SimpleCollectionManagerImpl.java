@@ -23,7 +23,7 @@ public class SimpleCollectionManagerImpl implements SimpleCollectionManager {
         Object obj = modelCreator.lookup(targetClass);
         R resultCollection = targetClass.cast(obj);
         for (SimpleCollection<T> included : simpleCollections) {
-            resultCollection.get().addAll(included.get());
+            resultCollection.getCollection().addAll(included.getCollection());
         }
         return resultCollection;
     }
