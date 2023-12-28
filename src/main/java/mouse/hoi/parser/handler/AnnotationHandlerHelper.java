@@ -17,15 +17,17 @@ import java.util.List;
 public class AnnotationHandlerHelper {
     private final PrimitivesParser primitivesParser;
     private final ParseHelper parseHelper;
-    private final PropertyToModelParser propertyToModelParser;
+    private PropertyToModelParser propertyToModelParser;
     @Autowired
     public AnnotationHandlerHelper(
-                                   PrimitivesParser primitivesParser, ParseHelper parseHelper, PropertyToModelParser propertyToModelParser) {
+                                   PrimitivesParser primitivesParser, ParseHelper parseHelper) {
         this.primitivesParser = primitivesParser;
         this.parseHelper = parseHelper;
-        this.propertyToModelParser = propertyToModelParser;
     }
 
+    public void setPropertyToModelParser(PropertyToModelParser propertyToModelParser) {
+        this.propertyToModelParser = propertyToModelParser;
+    }
 
     public void initialize(Object model, List<Field> fieldList, List<Property> propertyList) {
         if (fieldList.isEmpty() && !propertyList.isEmpty()) {

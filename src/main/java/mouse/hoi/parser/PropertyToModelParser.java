@@ -9,8 +9,10 @@ import mouse.hoi.parser.handler.AnnotationHandlerHelper;
 import mouse.hoi.parser.property.BlockProperty;
 import mouse.hoi.parser.property.Property;
 import mouse.hoi.parser.property.SimpleProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.List;
 @Service
@@ -20,6 +22,7 @@ public class PropertyToModelParser {
     private final List<AnnotationHandler> annotationHandlers;
     private final AnnotationHandlerHelper annotationHandlerHelper;
 
+    @Autowired
     public PropertyToModelParser(ParseHelper parseHelper,
                                  ParsedModelCreator parsedModelCreator,
                                  List<AnnotationHandler> annotationHandlers,
@@ -28,6 +31,11 @@ public class PropertyToModelParser {
         this.parsedModelCreator = parsedModelCreator;
         this.annotationHandlers = annotationHandlers;
         this.annotationHandlerHelper = annotationHandlerHelper;
+    }
+
+    @PostConstruct
+    void init() {
+        annotationHandlerHelper.setPropertyToModelParser(this);
     }
 
     public Object getModel(Class<?> tClass, Property property) {

@@ -22,6 +22,9 @@ public class AnyKeyAnnotationHandler implements AnnotationHandler{
     @Override
     public void handle(Object model, List<Property> propertyList) {
         List<Field> anyKeyFields = fieldHelper.getFieldsWithAnnotation(model, AnyKey.class);
+        if (anyKeyFields.isEmpty()) {
+            return;
+        }
         annotationHandlerHelper.initialize(model, anyKeyFields, propertyList);
     }
 }

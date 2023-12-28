@@ -1,10 +1,7 @@
 package mouse.hoi.model;
 
 import lombok.Data;
-import mouse.hoi.parser.annotation.Block;
-import mouse.hoi.parser.annotation.ObjField;
-import mouse.hoi.parser.annotation.RequireField;
-import mouse.hoi.parser.annotation.Style;
+import mouse.hoi.parser.annotation.*;
 import mouse.hoi.parser.style.PrintStyle;
 
 @Data
@@ -19,4 +16,12 @@ public class IntPosition {
     @RequireField
     @ObjField(text = "y")
     private int y;
+
+
+    public static IntPosition zeros() {
+        IntPosition position = new IntPosition();
+        position.x = 0;
+        position.y = 0;
+        return position;
+    }
 }

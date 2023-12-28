@@ -16,6 +16,7 @@ public class ParseHelper {
 
     public void push(Object model, Field field, Object toAdd) {
         try {
+            field.setAccessible(true);
             pushToList(model, field, toAdd);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -79,6 +80,7 @@ public class ParseHelper {
 
     public void setField(Object model, Field field, Object instance) {
         try {
+            field.setAccessible(true);
             field.set(model, instance);
         } catch (IllegalAccessException e) {
             throw new PropertyParseException("Cannot set value to field " + field.getName() + ", value: " + instance, e);
@@ -99,6 +101,10 @@ public class ParseHelper {
 
     private List<Field> getFields(Object model) {
         return Arrays.asList(toClass(model).getDeclaredFields());
+    }
+
+    public List<Method> getMethods(Object model) {
+        return Arrays.asList(model.getClass().getMethods());
     }
 
     public List<Annotation> getAnnotations(Field field) {

@@ -22,7 +22,6 @@ public class GameFileParser {
         if (properties.isEmpty()) {
             throw new PropertyParseException("No properties provided to initialize " + tClass.getName());
         }
-        List<T> list = new ArrayList<>();
         return parseToObject(tClass, properties);
     }
     private <T> List<T> parseToObject(Class<T> tClass, List<Property> properties) {
