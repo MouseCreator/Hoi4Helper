@@ -62,7 +62,7 @@ public class AnnotationHandlerHelper {
         }
     }
 
-    private void initializeFieldWithProperty(Object model, Field field, Property property) {
+    public void initializeFieldWithProperty(Object model, Field field, Property property) {
         List<Annotation> annotations = parseHelper.getAnnotations(field);
         if (parseHelper.isCollectionField(field)) {
             Class<?> generic = parseHelper.getGeneric(field);
