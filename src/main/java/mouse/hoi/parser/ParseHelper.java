@@ -1,11 +1,15 @@
 package mouse.hoi.parser;
 
+import mouse.hoi.exception.PropertyParseException;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 @Component
 public class ParseHelper {
@@ -71,5 +75,33 @@ public class ParseHelper {
         }
         throw new IllegalArgumentException("Generic type is not instance of Parametrized type for field: " + field);
 
+    }
+
+    public void setField(Object model, Field field, Object instance) {
+        try {
+            field.set(model, instance);
+        } catch (IllegalAccessException e) {
+            throw new PropertyParseException("Cannot set value to field " + field.getName() + ", value: " + instance, e);
+        }
+    }
+
+    public List<Field> getFieldsWithAnnotation(Object model, Class<? extends Annotation> annotation) {
+        return getFields(model).stream().filter(withAnnotation(annotation)).toList();
+    }
+
+    public Class<?> toClass(Object model) {
+        return model.getClass();
+    }
+
+    private Predicate<Field> withAnnotation(Class<? extends Annotation> annotation) {
+        return field -> field.isAnnotationPresent(annotation);
+    }
+
+    private List<Field> getFields(Object model) {
+        return Arrays.asList(toClass(model).getDeclaredFields());
+    }
+
+    public List<Annotation> getAnnotations(Field field) {
+        return Arrays.asList(field.getAnnotations());
     }
 }

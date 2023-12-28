@@ -1,13 +1,13 @@
 package mouse.hoi.parser.handler;
 
 import mouse.hoi.exception.PropertyParseException;
-import mouse.hoi.parser.FieldHelper;
-import mouse.hoi.parser.StringValueProcessor;
+import mouse.hoi.parser.*;
 import mouse.hoi.parser.annotation.Ordered;
 import mouse.hoi.parser.property.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,13 +15,17 @@ import java.util.List;
 
 @Service
 public class AnnotationHandlerHelper {
-    private final FieldHelper fieldHelper;
-    private final StringValueProcessor stringValueProcessor;
+    private final PrimitivesParser primitivesParser;
+    private final ParseHelper parseHelper;
+    private final PropertyToModelParser propertyToModelParser;
     @Autowired
-    public AnnotationHandlerHelper(FieldHelper fieldHelper, StringValueProcessor stringValueProcessor) {
-        this.fieldHelper = fieldHelper;
-        this.stringValueProcessor = stringValueProcessor;
+    public AnnotationHandlerHelper(
+                                   PrimitivesParser primitivesParser, ParseHelper parseHelper, PropertyToModelParser propertyToModelParser) {
+        this.primitivesParser = primitivesParser;
+        this.parseHelper = parseHelper;
+        this.propertyToModelParser = propertyToModelParser;
     }
+
 
     public void initialize(Object model, List<Field> fieldList, List<Property> propertyList) {
         if (fieldList.isEmpty() && !propertyList.isEmpty()) {
@@ -59,10 +63,25 @@ public class AnnotationHandlerHelper {
     }
 
     private void initializeFieldWithProperty(Object model, Field field, Property property) {
-        //If collection : push
-        //Else set value to field
-        //Format the value with @Accuracy and @UseQuotes annotations
+        List<Annotation> annotations = parseHelper.getAnnotations(field);
+        if (parseHelper.isCollectionField(field)) {
+            Class<?> generic = parseHelper.getGeneric(field);
+            Object value = getPropertyValue(generic, annotations, property);
+            parseHelper.push(model, field, value);
+        } else {
+            Object value = getPropertyValue(field.getType(), annotations, property);
+            parseHelper.setField(model, field, value);
+        }
     }
+
+    private Object getPropertyValue(Class<?> clazz, List<Annotation> annotations, Property property) {
+        if (primitivesParser.isPrimitiveClass(clazz)) {
+            return primitivesParser.parsePrimitiveType(clazz, annotations, property);
+        }
+        return propertyToModelParser.getModel(clazz, property);
+    }
+
+
 
     private HashMap<Integer, List<Field>> getWithOrderAnnotation(List<Field> fieldList) {
         HashMap<Integer, List<Field>> fieldMap = new HashMap<>();

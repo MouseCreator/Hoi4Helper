@@ -1,6 +1,6 @@
 package mouse.hoi.parser.handler;
 
-import mouse.hoi.parser.FieldHelper;
+import mouse.hoi.parser.ParseHelper;
 import mouse.hoi.parser.annotation.AnyKey;
 import mouse.hoi.parser.property.Property;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,10 @@ import java.util.List;
 
 @Service
 public class AnyKeyAnnotationHandler implements AnnotationHandler{
-    private final FieldHelper fieldHelper;
+    private final ParseHelper fieldHelper;
     private final AnnotationHandlerHelper annotationHandlerHelper;
     @Autowired
-    public AnyKeyAnnotationHandler(FieldHelper fieldHelper, AnnotationHandlerHelper annotationHandlerHelper) {
+    public AnyKeyAnnotationHandler(ParseHelper fieldHelper, AnnotationHandlerHelper annotationHandlerHelper) {
         this.fieldHelper = fieldHelper;
         this.annotationHandlerHelper = annotationHandlerHelper;
     }

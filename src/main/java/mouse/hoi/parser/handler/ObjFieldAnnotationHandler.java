@@ -1,6 +1,6 @@
 package mouse.hoi.parser.handler;
 
-import mouse.hoi.parser.FieldHelper;
+import mouse.hoi.parser.ParseHelper;
 import mouse.hoi.parser.annotation.ObjField;
 import mouse.hoi.parser.property.Property;
 import mouse.hoi.parser.property.PropertyType;
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class ObjFieldAnnotationHandler implements AnnotationHandler{
 
-    private final FieldHelper fieldHelper;
+    private final ParseHelper fieldHelper;
     private final AnnotationHandlerHelper annotationHandlerHelper;
     @Autowired
-    public ObjFieldAnnotationHandler(FieldHelper fieldHelper, AnnotationHandlerHelper annotationHandlerHelper) {
+    public ObjFieldAnnotationHandler(ParseHelper fieldHelper, AnnotationHandlerHelper annotationHandlerHelper) {
         this.fieldHelper = fieldHelper;
         this.annotationHandlerHelper = annotationHandlerHelper;
     }

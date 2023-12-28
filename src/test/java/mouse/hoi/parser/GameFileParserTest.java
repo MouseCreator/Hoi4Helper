@@ -1,6 +1,5 @@
 package mouse.hoi.parser;
 
-import mouse.hoi.config.GeneralUtils;
 import mouse.hoi.config.spring.TestConfig;
 import mouse.hoi.model.texture.SpriteTypes;
 import mouse.hoi.parser.parse.FileFormatter;
@@ -96,7 +95,7 @@ class GameFileParserTest {
                 """;
 
         List<Property> properties = propertyParser.parse(new TokenCollection(formatter.formatAndTokenize(content)));
-        SpriteTypes spriteTypes = gameFileParser.parseFrom(SpriteTypes.class, properties);
+        List<SpriteTypes> spriteTypes = gameFileParser.parseFrom(SpriteTypes.class, properties);
         System.out.println(spriteTypes);
     }
 }

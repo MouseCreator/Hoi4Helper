@@ -1,6 +1,6 @@
 package mouse.hoi.parser.handler;
 
-import mouse.hoi.parser.FieldHelper;
+import mouse.hoi.parser.ParseHelper;
 import mouse.hoi.parser.annotation.CollectionKey;
 import mouse.hoi.parser.collectiontype.CollectionType;
 import mouse.hoi.parser.collectiontype.CollectionTypeManager;
@@ -16,11 +16,11 @@ import java.util.List;
 @Service
 public class CollectionKeyAnnotationHandler implements AnnotationHandler{
 
-    private final FieldHelper fieldHelper;
+    private final ParseHelper fieldHelper;
     private final AnnotationHandlerHelper annotationHandlerHelper;
     private final CollectionTypeManager collectionTypeManager;
     @Autowired
-    public CollectionKeyAnnotationHandler(FieldHelper fieldHelper,
+    public CollectionKeyAnnotationHandler(ParseHelper fieldHelper,
                                           AnnotationHandlerHelper annotationHandlerHelper,
                                           CollectionTypeManager collectionTypeManager) {
         this.fieldHelper = fieldHelper;
