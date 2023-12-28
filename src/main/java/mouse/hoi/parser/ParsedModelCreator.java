@@ -4,7 +4,7 @@ import mouse.hoi.parser.annotation.Factory;
 import mouse.hoi.parser.annotation.FactoryFor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
@@ -12,10 +12,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-@Component
-public class ParsedModelCreator {
-
+@Service
+public class ParsedModelCreator implements ModelCreator {
     private final ApplicationContext applicationContext;
 
     private final HashMap<Class<?>, FactoryWithMethod> map = new HashMap<>();

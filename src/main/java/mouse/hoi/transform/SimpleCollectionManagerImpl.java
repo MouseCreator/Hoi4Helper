@@ -1,7 +1,7 @@
 package mouse.hoi.transform;
 
 import mouse.hoi.model.common.SimpleCollection;
-import mouse.hoi.parser.ParsedModelCreator;
+import mouse.hoi.parser.ModelCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,9 @@ import java.util.Collection;
 @Service
 public class SimpleCollectionManagerImpl implements SimpleCollectionManager {
 
-    private final ParsedModelCreator modelCreator;
+    private final ModelCreator modelCreator;
     @Autowired
-    public SimpleCollectionManagerImpl(ParsedModelCreator modelCreator) {
+    public SimpleCollectionManagerImpl(ModelCreator modelCreator) {
         this.modelCreator = modelCreator;
     }
 

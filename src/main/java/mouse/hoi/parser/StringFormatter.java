@@ -15,4 +15,16 @@ public class StringFormatter {
         return input;
 
     }
+
+    public String addQuotes(String input) {
+        if (input == null) {
+            return null;
+        }
+        if (input.startsWith("\"") && input.endsWith("\"")) {
+            return input;
+        }
+
+        return '"' + input + '"';
+
+    }
 }
