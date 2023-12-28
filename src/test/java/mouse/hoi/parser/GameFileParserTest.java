@@ -10,6 +10,8 @@ import mouse.hoi.parser.property.Property;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameFileParserTest {
@@ -93,8 +95,8 @@ class GameFileParserTest {
                 }
                 """;
 
-        Property property = propertyParser.parse(new TokenCollection(formatter.formatAndTokenize(content))).get(0);
-        SpriteTypes spriteTypes = gameFileParser.parseFrom(SpriteTypes.class, property);
+        List<Property> properties = propertyParser.parse(new TokenCollection(formatter.formatAndTokenize(content)));
+        SpriteTypes spriteTypes = gameFileParser.parseFrom(SpriteTypes.class, properties);
         System.out.println(spriteTypes);
     }
 }

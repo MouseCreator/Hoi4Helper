@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface CollectionValue {
-    String type(); /* Tag, resource, building etc. */
+public @interface AnyKey {
 }

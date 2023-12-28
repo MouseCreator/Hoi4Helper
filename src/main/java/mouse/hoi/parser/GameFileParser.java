@@ -2,220 +2,73 @@ package mouse.hoi.parser;
 
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.parser.annotation.*;
-import mouse.hoi.parser.property.BlockProperty;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
 public class GameFileParser {
     private final ParsedModelCreator parsedModelCreator;
+    private final StringValueProcessor stringValueProcessor;
     private final ParseHelper helper;
-    private final StringFormatter formatter;
+    private final FieldHelper fieldHelper;
+
     @Autowired
-    public GameFileParser(ParsedModelCreator parsedModelCreator, ParseHelper helper, StringFormatter formatter) {
+    public GameFileParser(ParsedModelCreator parsedModelCreator, ParseHelper helper, StringValueProcessor processor, FieldHelper fieldHelper) {
         this.parsedModelCreator = parsedModelCreator;
         this.helper = helper;
-        this.formatter = formatter;
+        this.stringValueProcessor = processor;
+        this.fieldHelper = fieldHelper;
     }
 
-    private static class PropertyChildren {
-        private final List<Property> propertyList;
 
-        public PropertyChildren(BlockProperty blockProperty) {
-            if (blockProperty == null) {
-                propertyList = new ArrayList<>();
-            } else {
-                propertyList = new ArrayList<>(blockProperty.getChildren());
-            }
+    public <T> T parseFrom(Class<T> tClass, List<Property> properties) {
+        if (properties.isEmpty()) {
+            throw new PropertyParseException("No properties provided to initialize " + tClass.getName());
         }
-        public List<Property> getPropertiesByKey(String key) {
-            return propertyList.stream().filter(p -> key.equals(p.getKey())).toList();
-        }
+        return tClass.cast(parseToObject(tClass, properties));
     }
-
-    public <T> T parseFrom(Class<T> tClass, Property property) {
-        return tClass.cast(parseToObject(tClass, property));
-    }
-    private Object parseToObject(Class<?> tClass, Property property) {
-        validateBlockName(property, tClass);
-        if (!property.isBlock()) {
-            throw new PropertyParseException("Main property is not a block " + property.print());
+    private Object parseToObject(Class<?> tClass, List<Property> properties) {
+        if (skipDeclaration(tClass)) {
+            BlockProperty blockProperty = new BlockProperty("", "", properties);
+            properties = List.of(blockProperty);
+        } else {
+            validateBlockName(properties.get(0), tClass);
         }
-        return parseInstanceOfClass(tClass, property);
-    }
-
-    private Object parseInstanceOfClass(Class<?> clazz, Property property) {
-        Object model = parsedModelCreator.lookup(clazz);
-        if (!property.isBlock()) {
-            initializeWithDefaultField(clazz, property, model);
-            return model;
+        Object model = parsedModelCreator.lookup(tClass);
+        for (Property property : properties) {
+            parseProperty(property, model);
         }
-        initializeWithBlock(clazz, property, model);
+        validateModel(model);
         return model;
     }
 
-    private void initializeWithBlock(Class<?> clazz, Property property, Object model) {
-        BlockProperty mainProperty = toBlock(property);
-        PropertyChildren children = new PropertyChildren(mainProperty);
-        Field[] declaredFields = clazz.getDeclaredFields();
-        for (Field field : declaredFields) {
+    private void parseProperty(Property property, Object model) {
+    }
+
+    private void validateModel(Object model) {
+        List<Field> requiredFields = fieldHelper.getFieldsWithAnnotation(model, RequireField.class);
+        for (Field field : requiredFields) {
             field.setAccessible(true);
-            ObjField fieldAnnotation = field.getAnnotation(ObjField.class);
-            if (fieldAnnotation == null)
-                continue;
-            String text = fieldAnnotation.text();
-            List<Property> propertiesByKey = children.getPropertiesByKey(text);
-            if (propertiesByKey.isEmpty()) {
-                validateRequire(clazz, field);
-                continue;
+            Object value;
+            try {
+                value = field.get(model);
+            } catch (IllegalAccessException e) {
+                throw new PropertyParseException("Unable to get field value " + field.getName(), e);
             }
-            if (field.isAnnotationPresent(FromBlockValue.class)) {
-                initializeField(model, field, mainProperty.getValue());
-            }
-            if (field.isAnnotationPresent(Ordered.class)) {
-                int num = field.getAnnotation(Ordered.class).num();
-                if (num > propertiesByKey.size()) {
-                    validateRequire(clazz, field);
-                    continue;
-                }
-                Property orderedProperty = propertiesByKey.get(num);
-                propertiesByKey = List.of(orderedProperty);
-            }
-            if (helper.isCollectionField(field)) {
-                pushToCollection(model, field, propertiesByKey);
-            } else {
-                initializeField(model, field, propertiesByKey.get(0));
+            if (value == null) {
+                throw new PropertyParseException("Required field" + field.getName() + " is not initialized for " + fieldHelper.toClass(model));
             }
         }
     }
 
-    private static void validateRequire(Class<?> clazz, Field field) {
-        if (field.isAnnotationPresent(RequireField.class)) {
-            throw new PropertyParseException("Field " + field.getName() +
-                    " for class " + clazz.getSimpleName() + " is required, but not present");
-        }
-    }
 
-    private void initializeWithDefaultField(Class<?> clazz, Property property, Object model) {
-        String value = property.getValue();
-        initializeWithDefaultField(clazz, model, value);
-    }
-
-    private void initializeWithDefaultField(Class<?> clazz, Object model, String value) {
-        Optional<Field> defaultField = getDefaultField(clazz);
-        if(defaultField.isPresent()) {
-            Field field = defaultField.get();
-            initializeField(model, field, value);
-        }
-        throw new PropertyParseException("Trying to create instance of " + clazz.getSimpleName()
-                + " with value " + value + ", but no default field is declared");
-    }
-
-    private Object getInstanceFromProperty(Field field, Property property) {
-        return parseInstanceOfClass(field.getType(), property);
-    }
-
-    private void pushToCollection(Object model, Field field, List<Property> propertiesByKey) {
-        Class<?> generic = helper.getGeneric(field);
-        for (Property property : propertiesByKey) {
-            Object instance = parseInstanceOfClass(generic, property);
-            helper.push(model, field, instance);
-        }
-    }
-
-
-
-    private void initializeField(Object model, Field field, String value) {
-        Object instance = getFromString(field, value);
-        setField(model, field, instance);
-    }
-
-    private Object getFromString(Field field, String value) {
-        Class<?> type = field.getType();
-        return (String.class.isAssignableFrom(type)) ?
-             processStringValue(field, value) : processNotStringValue(field, value);
-    }
-
-    private String processStringValue(Field field, String value) {
-        if (field.isAnnotationPresent(UseQuotes.class)) {
-            value = formatter.removeQuotes(value);
-        }
-        return value;
-    }
-
-    private Object processNotStringValue(Field field, String value) {
-        Class<?> clazz = field.getType();
-        if (clazz == Integer.class) {
-            return Integer.parseInt(value);
-        } else if (clazz == Long.class) {
-            return Long.parseLong(value);
-        } else if (clazz == Double.class) {
-            return processDouble(field, value);
-        } else if (clazz == Boolean.class) {
-            return processBoolean(value);
-        } else {
-            Object object = parsedModelCreator.lookup(clazz);
-            initializeWithDefaultField(clazz, object, value);
-            return object;
-        }
-    }
-
-    private static double processDouble(Field field, String value) {
-        Accuracy accuracyAnnotation = field.getDeclaredAnnotation(Accuracy.class);
-        if (accuracyAnnotation != null) {
-            int decimalPlaces = accuracyAnnotation.digits();
-            return Double.parseDouble(String.format("%." + decimalPlaces + "f", Double.parseDouble(value)));
-        } else {
-            return Double.parseDouble(value);
-        }
-    }
-
-    private static Object processBoolean(String value) {
-        if ("yes".equalsIgnoreCase(value)) {
-            return true;
-        } else if ("no".equalsIgnoreCase(value)) {
-            return false;
-        } else {
-            throw new PropertyParseException ("Invalid value for Boolean: " + value);
-        }
-    }
-
-
-    private void setField(Object model, Field field, Object instance) {
-        try {
-            field.set(model, instance);
-        } catch (IllegalAccessException e) {
-            throw new PropertyParseException("Cannot set value to field " + field.getName() + ", value: " + instance, e);
-        }
-    }
-
-    private void initializeField(Object model, Field field, Property property) {
-        Object instance = getInstanceFromProperty(field, property);
-        setField(model, field, instance);
-    }
-
-    private Optional<Field> getDefaultField(Class<?> clazz) {
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(DefaultField.class)) {
-                return Optional.of(field);
-            }
-        }
-        return Optional.empty();
-    }
-
-    private BlockProperty toBlock(Property property) {
-        if (property.isBlock()) {
-            return (BlockProperty) property;
-        }
-        throw new PropertyParseException("Cannot parse property to block " + property.print());
+    private boolean skipDeclaration(Class<?> tClass) {
+        return tClass.isAnnotationPresent(SkipDeclaration.class);
     }
 
     private void validateBlockName(Property property, Class<?> modelClass) {
@@ -232,4 +85,26 @@ public class GameFileParser {
             throw new PropertyParseException(msg);
         }
     }
+
+    private BlockProperty toBlock(Property property) {
+        if (property.isBlock()) {
+            return (BlockProperty) property;
+        }
+        throw new IllegalArgumentException("Trying to convert to block not a block property " + property.print());
+    }
+
+    private void setValueToFields(List<Field> simpleFields, String propertyValue) {
+
+    }
+
+
+    private void initializeFromBlockValue(BlockProperty blockProperty, Object model) {
+        if (!blockProperty.getValue().isEmpty()) {
+            fieldHelper.initializeFieldsWithAnnotation(model, FromBlockValue.class, blockProperty.getValue());
+        }
+    }
+
+
+
+
 }

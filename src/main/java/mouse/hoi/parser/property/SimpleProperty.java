@@ -25,7 +25,7 @@ public class SimpleProperty implements Property {
 
     @Override
     public String getKey() {
-        return "";
+        throw new UnsupportedOperationException("SimpleProperty does not have a key");
     }
 
     @Override

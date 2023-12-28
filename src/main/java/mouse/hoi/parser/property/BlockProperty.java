@@ -18,6 +18,12 @@ public class BlockProperty implements Property {
         children = new ArrayList<>();
     }
 
+    public BlockProperty(String key, String value, List<Property> properties) {
+        this.key = key;
+        this.value = value;
+        this.children = new ArrayList<>(properties);
+    }
+
     public static BlockProperty withKey(String key) {
         return new BlockProperty(key, "");
     }
