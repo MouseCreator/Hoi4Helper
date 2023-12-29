@@ -1,6 +1,8 @@
 package mouse.hoi.parser;
 
 import mouse.hoi.config.spring.TestConfig;
+import mouse.hoi.lib.filemanager.FileManager;
+import mouse.hoi.model.texture.SpriteType;
 import mouse.hoi.model.texture.SpriteTypes;
 import mouse.hoi.parser.parse.FileFormatter;
 import mouse.hoi.parser.parse.PropertyParser;
@@ -21,81 +23,15 @@ class GameFileParserTest {
         GameFileParser gameFileParser = context.getBean(GameFileParser.class);
         PropertyParser propertyParser = context.getBean(PropertyParser.class);
         FileFormatter formatter = context.getBean(FileFormatter.class);
-
-        String content = """
-                spriteTypes = {	
-                                
-                                
-                                
-                	SpriteType = {
-                		name = "GFX__shine"
-                		texturefile = "gfx/interface/goals/goal_unknown.dds"
-                				effectFile = "gfx/FX/buttonstate.lua"
-                		animation = {
-                			animationmaskfile = "gfx/interface/goals/goal_unknown.dds"
-                			animationtexturefile = "gfx/interface/goals/shine_overlay.dds" 	# <- the animated file
-                			animationrotation = -90.0		# -90 clockwise 90 counterclockwise(by default)
-                			animationlooping = no			# yes or no ;)
-                			animationtime = 0.75				# in seconds
-                			animationdelay = 0			# in seconds
-                			animationblendmode = "add"       #add, multiply, overlay
-                			animationtype = "scrolling"      #scrolling, rotating, pulsing
-                			animationrotationoffset = { x = 0.0 y = 0.0 }
-                			animationtexturescale = { x = 1.0 y = 1.0 }\s
-                		}
-                                
-                		animation = {
-                			animationmaskfile = "gfx/interface/goals/goal_unknown.dds"
-                			animationtexturefile = "gfx/interface/goals/shine_overlay.dds" 	# <- the animated file
-                			animationrotation = 90.0		# -90 clockwise 90 counterclockwise(by default)
-                			animationlooping = no			# yes or no ;)
-                			animationtime = 0.75				# in seconds
-                			animationdelay = 0			# in seconds
-                			animationblendmode = "add"       #add, multiply, overlay
-                			animationtype = "scrolling"      #scrolling, rotating, pulsing
-                			animationrotationoffset = { x = 0.0 y = 0.0 }
-                			animationtexturescale = { x = 1.0 y = 1.0 }\s
-                		}
-                		legacy_lazy_load = no
-                	}
-                	#### Generic continuous goal icons
-                                
-                	SpriteType = {
-                		name = "GFX_goal_continuous_air_production_shine"
-                		texturefile = "gfx/interface/goals/goal_continuous_air_production.dds"			
-                		effectFile = "gfx/FX/buttonstate.lua"
-                		animation = {
-                			animationmaskfile = "gfx/interface/goals/goal_continuous_air_production.dds"			
-                			animationtexturefile = "gfx/interface/goals/shine_overlay.dds" 	# <- the animated file
-                			animationrotation = -90.0		# -90 clockwise 90 counterclockwise(by default)
-                			animationlooping = no			# yes or no ;)
-                			animationtime = 0.75				# in seconds
-                			animationdelay = 0			# in seconds
-                			animationblendmode = "add"       #add, multiply, overlay
-                			animationtype = "scrolling"      #scrolling, rotating, pulsing
-                			animationrotationoffset = { x = 0.0 y = 0.0 }
-                			animationtexturescale = { x = 1.0 y = 1.0 }\s
-                		}
-                                
-                		animation = {
-                			animationmaskfile = "gfx/interface/goals/goal_continuous_air_production.dds"			
-                			animationtexturefile = "gfx/interface/goals/shine_overlay.dds" 	# <- the animated file
-                			animationrotation = 90.0		# -90 clockwise 90 counterclockwise(by default)
-                			animationlooping = no			# yes or no ;)
-                			animationtime = 0.75				# in seconds
-                			animationdelay = 0			# in seconds
-                			animationblendmode = "add"       #add, multiply, overlay
-                			animationtype = "scrolling"      #scrolling, rotating, pulsing
-                			animationrotationoffset = { x = 0.0 y = 0.0 }
-                			animationtexturescale = { x = 1.0 y = 1.0 }\s
-                		}
-                		legacy_lazy_load = no
-                	}
-                }
-                """;
-
+        FileManager fileManager = context.getBean(FileManager.class);
+        String content = fileManager.read("src/test/resources/assets/parse/SampleSpriteTypes_01.txt");
         List<Property> properties = propertyParser.parse(new TokenCollection(formatter.formatAndTokenize(content)));
-        List<SpriteTypes> spriteTypes = gameFileParser.parseFrom(SpriteTypes.class, properties);
-        System.out.println(spriteTypes);
+        List<SpriteTypes> spriteTypesList = gameFileParser.parseFrom(SpriteTypes.class, properties);
+        assertEquals(1, spriteTypesList.size());
+        SpriteTypes spriteTypes = spriteTypesList.get(0);
+
+        List<SpriteType> spriteTypeList = spriteTypes.getSpriteTypes();
+        assertEquals(2, spriteTypeList.size());
+        System.out.println(spriteTypesList);
     }
 }
