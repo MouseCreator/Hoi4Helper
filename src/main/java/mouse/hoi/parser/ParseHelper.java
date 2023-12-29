@@ -5,10 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 @Component
@@ -24,12 +21,7 @@ public class ParseHelper {
     }
     private void pushToList(Object model, Field field, Object toAdd) throws InstantiationException,
             IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Object list;
-        if (field.getType().isInterface()) {
-            list = new ArrayList<>();
-        } else {
-            list = field.getType().getConstructor().newInstance();
-        }
+        Object list = getCollectionObject(model, field);
         boolean valid = testGeneric(field, list, toAdd);
         if (!valid) {
             throw new IllegalArgumentException("Parsing collection field " + field.getName() + ": Argument is not of Generic type!");
@@ -44,6 +36,27 @@ public class ParseHelper {
             field.set(model, list);
         }
     }
+
+    private Object getCollectionObject(Object instance, Field field)
+            throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+        Object list = field.get(instance);
+        if (list != null) {
+           return list;
+        }
+        if (field.getType().isInterface()) {
+            if (field.getType().isAssignableFrom(List.class)) {
+                list = new ArrayList<>();
+            } else if (field.getType().isAssignableFrom(Set.class)) {
+                list = new HashSet<>();
+            } else {
+                throw new IllegalAccessException("Collection field in neither List nor Set");
+            }
+        } else {
+            list = field.getType().getConstructor().newInstance();
+        }
+        return list;
+    }
+
     private boolean testGeneric(Field field, Object list, Object toAdd)  {
         if (list instanceof List || list instanceof Set) {
             Type genericType = field.getGenericType();
