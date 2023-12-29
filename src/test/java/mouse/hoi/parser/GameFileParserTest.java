@@ -79,9 +79,9 @@ class GameFileParserTest {
         FileManager fileManager = context.getBean(FileManager.class);
         String content = fileManager.read("src/test/resources/assets/parse/SampleSpriteTypes_01.txt");
         List<Property> properties = propertyParser.parse(new TokenCollection(formatter.formatAndTokenize(content)));
-        List<SpriteTypes> spriteTypesList = gameFileParser.parseFrom(SpriteTypes.class, properties);
-        assertEquals(1, spriteTypesList.size());
-        SpriteTypes spriteTypes = spriteTypesList.get(0);
+        List<SpriteTypes> parsingResult = gameFileParser.parseFrom(SpriteTypes.class, properties);
+        assertEquals(1, parsingResult.size());
+        SpriteTypes spriteTypes = parsingResult.get(0);
 
         List<SpriteType> spriteTypeList = spriteTypes.getSpriteTypes();
         assertEquals(2, spriteTypeList.size());
