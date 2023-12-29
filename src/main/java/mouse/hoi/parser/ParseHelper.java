@@ -1,14 +1,14 @@
 package mouse.hoi.parser;
 
 import mouse.hoi.exception.PropertyParseException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Predicate;
 
-@Component
+@Service
 public class ParseHelper {
 
     public void push(Object model, Field field, Object toAdd) {
@@ -118,6 +118,10 @@ public class ParseHelper {
 
     public List<Method> getMethods(Object model) {
         return Arrays.asList(model.getClass().getMethods());
+    }
+
+    public List<Method> getMethodsWithAnnotation(Object model, Class<? extends Annotation> annotation) {
+        return getMethods(model).stream().filter(m -> m.isAnnotationPresent(annotation)).toList();
     }
 
     public List<Annotation> getAnnotations(Field field) {

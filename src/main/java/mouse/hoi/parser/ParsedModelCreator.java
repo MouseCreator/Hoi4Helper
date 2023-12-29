@@ -38,13 +38,11 @@ public class ParsedModelCreator implements ModelCreator {
     }
 
     private void putFactoryMethodsInMap(HashMap<Class<?>, FactoryWithMethod> map, Object object) {
-        List<Method> methods = parseHelper.getMethods(object);
+        List<Method> methods = parseHelper.getMethodsWithAnnotation(object, FactoryFor.class);
         for (Method method : methods) {
-            if (method.isAnnotationPresent(FactoryFor.class)) {
-                Class<?> returnType = method.getReturnType();
-                method.setAccessible(true);
-                map.put(returnType, new FactoryWithMethod(method, object));
-            }
+            Class<?> returnType = method.getReturnType();
+            method.setAccessible(true);
+            map.put(returnType, new FactoryWithMethod(method, object));
         }
 
     }
