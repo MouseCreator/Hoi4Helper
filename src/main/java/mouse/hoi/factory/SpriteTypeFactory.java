@@ -13,7 +13,9 @@ import java.util.ArrayList;
 public class SpriteTypeFactory {
     @FactoryFor
     public SpriteType getSpriteType() {
-        return new SpriteType();
+        SpriteType spriteType = new SpriteType();
+        spriteType.setAnimationList(new ArrayList<>());
+        return spriteType;
     }
 
     @FactoryFor

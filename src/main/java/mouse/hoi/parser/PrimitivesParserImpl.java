@@ -38,8 +38,13 @@ public class PrimitivesParserImpl implements PrimitivesParser {
         return value;
     }
 
-    private boolean hasAnnotation(List<Annotation> annotations, Class<?> annotation) {
-        return annotations.stream().map(Annotation::getClass).anyMatch(c -> c.equals(annotation));
+    private boolean hasAnnotation(List<Annotation> annotations, Class<?> annotationClass) {
+        for (Annotation a : annotations) {
+            if (annotationClass.isInstance(a)) {
+                return true;
+            }
+        }
+        return false;
     }
     private <T extends Annotation> T getDeclaredAnnotation(List<Annotation> annotations, Class<T> target) {
         Optional<Annotation> targetAnnotation = annotations.stream().filter(a -> target.equals(a.getClass())).findFirst();

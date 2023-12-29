@@ -21,7 +21,7 @@ public class AnimationFactory {
         Animation animation = new Animation();
         animation.setMaskFile(null);
         animation.setTextureFile(defConstants.getDefaultOverlay());
-        animation.setRotation(-90.0);
+        animation.setRotation(0.0);
         animation.setLooping(false);
         animation.setTimeSeconds(0.75);
         animation.setDelaySeconds(0.0);

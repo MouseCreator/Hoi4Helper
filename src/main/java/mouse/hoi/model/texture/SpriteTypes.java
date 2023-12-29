@@ -12,7 +12,7 @@ import java.util.List;
 public class SpriteTypes implements SimpleCollection<SpriteType> {
 
     @ObjField(text = "SpriteType")
-    List<SpriteType> spriteTypes;
+    private List<SpriteType> spriteTypes;
 
     @Override
     public Collection<SpriteType> getCollection() {
