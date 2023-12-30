@@ -4,7 +4,7 @@ import mouse.hoi.lib.filemanager.FileManager;
 import mouse.hoi.parser.parse.FileFormatter;
 import mouse.hoi.parser.parse.PropertyParser;
 import mouse.hoi.parser.parse.TokenCollection;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.Property;
 import mouse.hoi.parser.result.ParsingResult;
 import mouse.hoi.parser.result.ParsingResultImpl;
 import org.springframework.stereotype.Service;

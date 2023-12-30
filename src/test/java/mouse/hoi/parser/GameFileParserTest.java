@@ -11,7 +11,7 @@ import mouse.hoi.model.texture.SpriteTypes;
 import mouse.hoi.parser.parse.FileFormatter;
 import mouse.hoi.parser.parse.PropertyParser;
 import mouse.hoi.parser.parse.TokenCollection;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.Property;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

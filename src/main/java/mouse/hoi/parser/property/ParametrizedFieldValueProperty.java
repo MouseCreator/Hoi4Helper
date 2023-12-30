@@ -2,18 +2,15 @@ package mouse.hoi.parser.property;
 
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
-@ToString
-public class FieldValueProperty implements Property {
+public class ParametrizedFieldValueProperty<T extends BaseProperty> implements ParametrizedProperty<T> {
+    protected String key;
+    protected String value;
 
-    private String key;
-    private String value;
-
-    public FieldValueProperty(String key, String value) {
+    public ParametrizedFieldValueProperty(String key, String value) {
         this.key = key;
         this.value = value;
     }
@@ -47,7 +44,7 @@ public class FieldValueProperty implements Property {
     }
 
     @Override
-    public List<Property> getChildren() {
+    public List<T> getChildren() {
         throw new UnsupportedOperationException("FieldValueProperty does not have child properties");
     }
 

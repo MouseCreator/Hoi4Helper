@@ -16,8 +16,6 @@ public class SimpleCollectionManagerImpl implements SimpleCollectionManager {
         this.modelCreator = modelCreator;
     }
 
-
-
     @Override
     public <T, R extends SimpleCollection<T>> R merge(Class<R> targetClass, Collection<SimpleCollection<T>> simpleCollections) {
         Object obj = modelCreator.lookup(targetClass);

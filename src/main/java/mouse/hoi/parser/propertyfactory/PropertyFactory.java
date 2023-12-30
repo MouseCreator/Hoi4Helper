@@ -1,9 +1,9 @@
 package mouse.hoi.parser.propertyfactory;
 
-import mouse.hoi.parser.property.BlockProperty;
-import mouse.hoi.parser.property.FieldValueProperty;
-import mouse.hoi.parser.property.Property;
-import mouse.hoi.parser.property.SimpleProperty;
+import mouse.hoi.parser.property.input.BlockProperty;
+import mouse.hoi.parser.property.input.FieldValueProperty;
+import mouse.hoi.parser.property.input.Property;
+import mouse.hoi.parser.property.input.SimpleProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class PropertyFactory {
         return new FieldValuePropertyCreator();
     }
     public static class BlockPropertyCreator {
-        private final BlockProperty blockProperty = BlockProperty.withKey("");
+        private final BlockProperty blockProperty = new BlockProperty();
         public BlockProperty get() {
             return blockProperty;
         }
@@ -46,6 +46,7 @@ public class PropertyFactory {
 
         public BlockPropertyCreator with(String key, String value) {
             blockProperty.setKey(key);
+            blockProperty.setValue(value);
             return this;
         }
 

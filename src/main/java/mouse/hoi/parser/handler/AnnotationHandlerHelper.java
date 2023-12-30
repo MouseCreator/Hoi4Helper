@@ -3,7 +3,7 @@ package mouse.hoi.parser.handler;
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.parser.*;
 import mouse.hoi.parser.annotation.Ordered;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

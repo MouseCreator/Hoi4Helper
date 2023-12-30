@@ -3,8 +3,8 @@ package mouse.hoi.parser;
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.parser.annotation.Block;
 import mouse.hoi.parser.annotation.SkipDeclaration;
-import mouse.hoi.parser.property.BlockProperty;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.BlockProperty;
+import mouse.hoi.parser.property.input.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

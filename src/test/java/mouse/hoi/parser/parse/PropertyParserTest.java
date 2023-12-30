@@ -1,6 +1,6 @@
 package mouse.hoi.parser.parse;
 
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.Property;
 import mouse.hoi.parser.propertyfactory.PropertyFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

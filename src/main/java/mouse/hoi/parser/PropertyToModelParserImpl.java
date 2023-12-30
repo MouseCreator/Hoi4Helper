@@ -7,9 +7,9 @@ import mouse.hoi.parser.annotation.FromKeyValue;
 import mouse.hoi.parser.annotation.RequireField;
 import mouse.hoi.parser.handler.AnnotationHandler;
 import mouse.hoi.parser.handler.AnnotationHandlerHelper;
-import mouse.hoi.parser.property.BlockProperty;
-import mouse.hoi.parser.property.Property;
-import mouse.hoi.parser.property.SimpleProperty;
+import mouse.hoi.parser.property.input.BlockProperty;
+import mouse.hoi.parser.property.input.Property;
+import mouse.hoi.parser.property.input.SimpleProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

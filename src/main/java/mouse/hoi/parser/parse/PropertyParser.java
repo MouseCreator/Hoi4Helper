@@ -1,7 +1,7 @@
 package mouse.hoi.parser.parse;
 
 import mouse.hoi.exception.GameFileParseException;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.Property;
 import mouse.hoi.parser.propertyfactory.PropertyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

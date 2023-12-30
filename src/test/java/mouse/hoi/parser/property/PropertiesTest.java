@@ -1,5 +1,9 @@
 package mouse.hoi.parser.property;
 
+import mouse.hoi.parser.property.input.BlockProperty;
+import mouse.hoi.parser.property.input.FieldValueProperty;
+import mouse.hoi.parser.property.input.Property;
+import mouse.hoi.parser.property.input.SimpleProperty;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +30,7 @@ class PropertiesTest {
 
     @Test
     void TestBlock() {
-        Property block = BlockProperty.withKey("Key");
+        Property block = new BlockProperty("Key");
         block.getChildren().add(new SimpleProperty("Value"));
         block.getChildren().add(new SimpleProperty("Value2"));
         assertTrue(block.isBlock());

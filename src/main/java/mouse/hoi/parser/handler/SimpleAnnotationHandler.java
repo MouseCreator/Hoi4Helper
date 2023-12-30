@@ -2,7 +2,7 @@ package mouse.hoi.parser.handler;
 
 import mouse.hoi.parser.ParseHelper;
 import mouse.hoi.parser.annotation.Simple;
-import mouse.hoi.parser.property.Property;
+import mouse.hoi.parser.property.input.Property;
 import mouse.hoi.parser.property.PropertyType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
