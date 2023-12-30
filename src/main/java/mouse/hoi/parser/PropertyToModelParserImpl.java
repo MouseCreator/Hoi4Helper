@@ -3,6 +3,7 @@ package mouse.hoi.parser;
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.parser.annotation.DefaultField;
 import mouse.hoi.parser.annotation.FromBlockValue;
+import mouse.hoi.parser.annotation.FromKeyValue;
 import mouse.hoi.parser.annotation.RequireField;
 import mouse.hoi.parser.handler.AnnotationHandler;
 import mouse.hoi.parser.handler.AnnotationHandlerHelper;
@@ -55,14 +56,15 @@ public class PropertyToModelParserImpl implements PropertyToModelParser {
 
     private void parseBlockProperty(BlockProperty blockProperty, Object model) {
         List<Property> children = blockProperty.getChildren();
-        String blockValue = blockProperty.getValue();
-        initializeBlockValue(model, blockValue);
+        initializeBlockValue(model, blockProperty);
+        initializeKeyValue(model, blockProperty);
         for (AnnotationHandler handler : annotationHandlers) {
             handler.handle(model, children);
         }
     }
 
-    private void initializeBlockValue(Object model, String blockValue) {
+    private void initializeBlockValue(Object model, Property property) {
+        String blockValue = property.getValue();
         if (blockValue.isEmpty()) {
             return;
         }
@@ -78,7 +80,19 @@ public class PropertyToModelParserImpl implements PropertyToModelParser {
         }
     }
 
+    private void initializeKeyValue(Object model, Property property) {
+        List<Field> keyFields = parseHelper.getFieldsWithAnnotation(model, FromKeyValue.class);
+        if (keyFields.isEmpty()) {
+            return;
+        }
+        SimpleProperty simpleProperty = new SimpleProperty(property.getKey());
+        for (Field field : keyFields) {
+            annotationHandlerHelper.initializeFieldWithProperty(model, field, simpleProperty);
+        }
+    }
+
     private void parseRegularProperty(Property property, Object model) {
+        initializeKeyValue(model, property);
         List<Field> fields = parseHelper.getFieldsWithAnnotation(model, DefaultField.class);
         if (fields.isEmpty()) {
             throw new PropertyParseException("Non-Block Property " + property.print() + " is used to defined a model "

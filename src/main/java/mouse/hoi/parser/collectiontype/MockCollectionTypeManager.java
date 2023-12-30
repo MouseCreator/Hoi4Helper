@@ -8,6 +8,9 @@ public class MockCollectionTypeManager implements CollectionTypeManager {
 
     @Override
     public List<CollectionType> findTypeForToken(String token) {
+        if (isInteger(token)) {
+            return List.of(CollectionType.STATE_ID, CollectionType.PROVINCE_ID, CollectionType.STRATEGIC_REGION_ID);
+        }
         CollectionType type = toSingleElement(token);
         if (type == null) {
             return List.of();
@@ -25,5 +28,14 @@ public class MockCollectionTypeManager implements CollectionTypeManager {
             case "plains", "mountain", "urban", "forest", "hills", "marsh", "desert", "jungle" -> CollectionType.TERRAIN;
             default -> null;
         };
+    }
+
+    private boolean isInteger(String token) {
+        try {
+            Integer.parseInt(token);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
