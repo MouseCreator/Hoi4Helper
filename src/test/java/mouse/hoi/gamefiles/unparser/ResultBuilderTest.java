@@ -1,6 +1,5 @@
-package mouse.hoi.unparser;
+package mouse.hoi.gamefiles.unparser;
 
-import mouse.hoi.gamefiles.unparser.StringResultBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

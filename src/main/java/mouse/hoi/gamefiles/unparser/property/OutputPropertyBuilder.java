@@ -22,16 +22,16 @@ public class OutputPropertyBuilder {
         return property;
     }
     public OutputProperty simple() {
-        property.setType(PropertyType.SIMPLE);
+        toSimple();
         return completeAndGet();
     }
 
     public OutputProperty fieldValue() {
-        property.setType(PropertyType.FIELD_VALUE);
+        toFieldValue();
         return completeAndGet();
     }
     public OutputProperty block() {
-        property.setType(PropertyType.BLOCK);
+        toBlock();
         return completeAndGet();
     }
 
@@ -62,5 +62,47 @@ public class OutputPropertyBuilder {
     public OutputProperty createSimple(String value) {
         property.setValue(value);
         return simple();
+    }
+
+    public boolean hasKey() {
+        String key = property.getKey();
+        return isPresent(key);
+    }
+
+    private static boolean isPresent(String key) {
+        return key != null && !key.isEmpty();
+    }
+
+    public boolean hasValue() {
+        return isPresent(property.getValue());
+    }
+
+    public boolean hasChildren() {
+        return !property.getChildren().isEmpty();
+    }
+
+    public boolean hasStyle() {
+        return property.getStyle() != null;
+    }
+
+    public void toSimple() {
+        property.setType(PropertyType.SIMPLE);
+    }
+    public void toFieldValue() {
+        property.setType(PropertyType.FIELD_VALUE);
+    }
+    public void toBlock() {
+        property.setType(PropertyType.BLOCK);
+    }
+
+    public OutputProperty get() {
+        if (property.getType()==null) {
+            throw new IllegalStateException("Trying to get property without type initialized " + property);
+        }
+        return property;
+    }
+
+    public boolean hasType() {
+        return property.getType() != null;
     }
 }

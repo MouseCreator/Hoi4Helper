@@ -27,6 +27,11 @@ public class PrimitivesParserImpl implements PrimitivesParser {
                 : processNotStringValue(clazz, annotationList, value);
     }
 
+    public Object parsePrimitiveType(String toParse, Class<?> clazz, List<Annotation> annotationList) {
+        return clazz.isAssignableFrom(String.class) ? processStringValue(annotationList, toParse)
+                : processNotStringValue(clazz, annotationList, toParse);
+    }
+
     public boolean isPrimitiveClass(Class<?> clazz) {
         return List.of(String.class, Integer.class, Boolean.class, Long.class, Double.class).contains(clazz);
     }
