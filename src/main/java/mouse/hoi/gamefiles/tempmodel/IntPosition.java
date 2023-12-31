@@ -5,7 +5,7 @@ import mouse.hoi.gamefiles.common.annotation.Block;
 import mouse.hoi.gamefiles.common.annotation.ObjField;
 import mouse.hoi.gamefiles.common.annotation.RequireField;
 import mouse.hoi.gamefiles.common.annotation.Style;
-import mouse.hoi.gamefiles.unparser.style.PrintStyle;
+import mouse.hoi.gamefiles.common.style.PrintStyle;
 
 @Data
 @Block(name = "position")

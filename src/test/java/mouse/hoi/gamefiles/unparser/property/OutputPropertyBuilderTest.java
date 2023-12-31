@@ -1,7 +1,7 @@
 package mouse.hoi.gamefiles.unparser.property;
 
 import mouse.hoi.gamefiles.parser.property.PropertyType;
-import mouse.hoi.gamefiles.unparser.style.PrintStyle;
+import mouse.hoi.gamefiles.common.style.PrintStyle;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package mouse.hoi.gamefiles.common.annotation;
 
-import mouse.hoi.gamefiles.unparser.style.PrintStyle;
+import mouse.hoi.gamefiles.common.style.PrintStyle;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

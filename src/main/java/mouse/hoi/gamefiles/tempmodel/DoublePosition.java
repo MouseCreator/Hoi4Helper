@@ -3,7 +3,7 @@ package mouse.hoi.gamefiles.tempmodel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mouse.hoi.gamefiles.common.annotation.*;
-import mouse.hoi.gamefiles.unparser.style.PrintStyle;
+import mouse.hoi.gamefiles.common.style.PrintStyle;
 
 @Data
 @Block(name = "pos")
