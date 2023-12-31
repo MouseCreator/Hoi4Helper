@@ -90,4 +90,29 @@ public class PrimitivesParserImpl implements PrimitivesParser {
             throw new PropertyParseException("Invalid value for Boolean: " + value);
         }
     }
+
+    @Override
+    public String convertToString(Object model, List<Annotation> toAnnotations) {
+        Class<?> aClass = model.getClass();
+        if (aClass == Double.class) {
+            return unparseDouble((Double) model, toAnnotations);
+        }
+        if (aClass == Boolean.class) {
+            return unparseBoolean((Boolean) model);
+        }
+        return model.toString();
+    }
+
+    private String unparseBoolean(Boolean b) {
+        return b ? "yes" : "no";
+    }
+
+    private String unparseDouble(Double val, List<Annotation> annotations) {
+        int decimalPlaces = 3;
+        Accuracy accuracyAnnotation = getDeclaredAnnotation(annotations, Accuracy.class);
+        if (accuracyAnnotation != null) {
+            decimalPlaces = accuracyAnnotation.digits();
+        }
+        return String.format("%." + decimalPlaces + "f", val);
+    }
 }

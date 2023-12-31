@@ -7,13 +7,12 @@ import mouse.hoi.gamefiles.common.annotation.OmitIfDefault;
 import mouse.hoi.gamefiles.common.annotation.OmitIfEquals;
 import mouse.hoi.gamefiles.parser.ModelCreator;
 import mouse.hoi.gamefiles.parser.PrimitivesParser;
-import mouse.hoi.gamefiles.unparser.ModelToPropertyUnparser;
+import mouse.hoi.gamefiles.unparser.CreationParameters;
+import mouse.hoi.gamefiles.unparser.OutputPropertyInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
-import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
@@ -23,22 +22,32 @@ public class DefaultInitializationHandler implements InitializationHandler {
 
     private final ModelCreator modelCreator;
     private final ParseHelper parseHelper;
-    private final ModelToPropertyUnparser unparser;
     private final PrimitivesParser primitivesParser;
+    private OutputPropertyInitializer outputPropertyInitializer;
+    private InitializationHandler next = null;
     @Autowired
     public DefaultInitializationHandler(ModelCreator modelCreator,
                                         ParseHelper parseHelper,
-                                        ModelToPropertyUnparser unparser, PrimitivesParser primitivesParser) {
+                                        PrimitivesParser primitivesParser) {
         this.modelCreator = modelCreator;
         this.parseHelper = parseHelper;
-        this.unparser = unparser;
         this.primitivesParser = primitivesParser;
     }
+
     @Override
-    public Optional<OutputProperty> handleInitialization(Object model, OutputPropertyBuilder builder, List<Annotation> annotations) {
-        return initializeWithDefaultValue(model, builder);
+    public void setNext(InitializationHandler nextHandler) {
+        this.next = nextHandler;
     }
-    private Optional<OutputProperty> initializeWithDefaultValue(Object model, OutputPropertyBuilder builder) {
+
+    public Optional<OutputProperty> handleInitialization(Object model, CreationParameters creationParameters) {
+        Optional<OutputProperty> outputProperty = initializeWithDefaultValue(model, creationParameters);
+        if (outputProperty.isPresent()) {
+            return outputProperty;
+        }
+        return next == null ? Optional.empty() : next.handleInitialization(model, creationParameters);
+
+    }
+    private Optional<OutputProperty> initializeWithDefaultValue(Object model, CreationParameters creationParameters) {
         List<Field> defaultFields = parseHelper.getFieldsWithAnnotation(model, DefaultField.class);
         if (defaultFields.isEmpty()) {
             return Optional.empty();
@@ -52,14 +61,14 @@ public class DefaultInitializationHandler implements InitializationHandler {
         if (canUseDefaultInitialization(model, defaultModel)) {
             Field defaultField = defaultFields.get(0);
             Object fieldValue = parseHelper.getFieldValue(model, defaultField);
-            OutputProperty property = applyDefaultInitialization(fieldValue, builder);
+            OutputProperty property = applyDefaultInitialization(fieldValue, creationParameters);
             return Optional.of(property);
         }
         return Optional.empty();
     }
 
-    private OutputProperty applyDefaultInitialization(Object fieldValue, OutputPropertyBuilder builder) {
-        throw new UnsupportedOperationException();
+    private OutputProperty applyDefaultInitialization(Object fieldValue, CreationParameters creationParameters) {
+        return outputPropertyInitializer.initializeProperty(fieldValue, creationParameters);
     }
 
     private boolean canUseDefaultInitialization(Object model, Object defaultModel) {
