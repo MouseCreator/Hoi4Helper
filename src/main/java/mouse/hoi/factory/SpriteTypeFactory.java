@@ -1,9 +1,9 @@
 package mouse.hoi.factory;
 
-import mouse.hoi.model.texture.SpriteType;
-import mouse.hoi.model.texture.SpriteTypes;
-import mouse.hoi.parser.annotation.Factory;
-import mouse.hoi.parser.annotation.FactoryFor;
+import mouse.hoi.gamefiles.tempmodel.texture.SpriteType;
+import mouse.hoi.gamefiles.tempmodel.texture.SpriteTypes;
+import mouse.hoi.gamefiles.common.annotation.Factory;
+import mouse.hoi.gamefiles.common.annotation.FactoryFor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

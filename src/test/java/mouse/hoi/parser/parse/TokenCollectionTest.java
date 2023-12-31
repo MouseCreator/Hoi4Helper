@@ -1,5 +1,6 @@
 package mouse.hoi.parser.parse;
 
+import mouse.hoi.gamefiles.parser.parse.TokenCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

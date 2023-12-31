@@ -1,9 +1,9 @@
 package mouse.hoi.factory;
 
-import mouse.hoi.model.DoublePosition;
-import mouse.hoi.model.IntPosition;
-import mouse.hoi.parser.annotation.Factory;
-import mouse.hoi.parser.annotation.FactoryFor;
+import mouse.hoi.gamefiles.tempmodel.DoublePosition;
+import mouse.hoi.gamefiles.tempmodel.IntPosition;
+import mouse.hoi.gamefiles.common.annotation.Factory;
+import mouse.hoi.gamefiles.common.annotation.FactoryFor;
 import org.springframework.stereotype.Component;
 
 @Component

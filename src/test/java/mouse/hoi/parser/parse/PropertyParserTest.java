@@ -1,7 +1,11 @@
 package mouse.hoi.parser.parse;
 
-import mouse.hoi.parser.property.input.Property;
-import mouse.hoi.parser.propertyfactory.PropertyFactory;
+import mouse.hoi.gamefiles.parser.parse.FileFormatter;
+import mouse.hoi.gamefiles.parser.parse.PropertyParser;
+import mouse.hoi.gamefiles.parser.parse.SimpleFileFormatter;
+import mouse.hoi.gamefiles.parser.parse.TokenCollection;
+import mouse.hoi.gamefiles.parser.property.Property;
+import mouse.hoi.gamefiles.parser.propertyfactory.PropertyFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,9 @@
 package mouse.hoi.transform;
 
-import mouse.hoi.config.GeneralUtils;
 import mouse.hoi.config.spring.TestConfig;
 import mouse.hoi.factory.SpriteTypeFactory;
-import mouse.hoi.model.common.SimpleCollection;
-import mouse.hoi.model.texture.SpriteType;
-import mouse.hoi.model.texture.SpriteTypes;
+import mouse.hoi.gamefiles.tempmodel.texture.SpriteTypes;
+import mouse.hoi.gamefiles.transform.SimpleCollectionManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
