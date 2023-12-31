@@ -31,7 +31,6 @@ public class ParsedModelCreator implements ModelCreator {
     }
     @PostConstruct
     public void scanAndCreateFactoryMap() {
-
         List<Object> factoryBeans = new ArrayList<>(applicationContext.getBeansWithAnnotation(Factory.class).values());
         for (Object factory : factoryBeans) {
             putFactoryMethodsInMap(map, factory);
