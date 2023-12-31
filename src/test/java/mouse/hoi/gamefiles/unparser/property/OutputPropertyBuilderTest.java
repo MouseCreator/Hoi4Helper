@@ -14,8 +14,8 @@ class OutputPropertyBuilderTest {
         OutputPropertyBuilder builder = new OutputPropertyBuilder();
         builder.withKey("Key");
         builder.withValue("Value");
-        builder.addChildren(new OutputPropertyImpl());
-        builder.addChildren(List.of(new OutputPropertyImpl(), new OutputPropertyImpl()));
+        builder.withChildren(new OutputPropertyImpl());
+        builder.withChildren(List.of(new OutputPropertyImpl(), new OutputPropertyImpl()));
         return builder;
     }
 

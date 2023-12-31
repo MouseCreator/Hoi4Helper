@@ -50,12 +50,17 @@ public class OutputPropertyBuilder {
         return this;
     }
 
-    public OutputPropertyBuilder addChildren(OutputProperty child) {
+    public OutputPropertyBuilder withChildren(OutputProperty child) {
         property.addChild(child);
         return this;
     }
-    public OutputPropertyBuilder addChildren(Collection<OutputProperty> children) {
+    public OutputPropertyBuilder withChildren(Collection<OutputProperty> children) {
         property.addChildren(children);
         return this;
+    }
+
+    public OutputProperty createSimple(String value) {
+        property.setValue(value);
+        return simple();
     }
 }

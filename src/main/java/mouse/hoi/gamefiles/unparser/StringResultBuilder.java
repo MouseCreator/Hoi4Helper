@@ -38,13 +38,23 @@ public class StringResultBuilder {
 
     public StringResultBuilder openBlock() {
         tabulationLevel++;
-        return append(" = {");
+        return append("{");
     }
 
     public StringResultBuilder closeBlock() {
         tabulationLevel--;
-        append("}");
-        return newline();
+        return append("}");
     }
 
+    @Override
+    public String toString() {
+        return get();
+    }
+
+    public StringResultBuilder spaceSafe() {
+        if (!builder.toString().endsWith(" ")) {
+            space();
+        }
+        return this;
+    }
 }

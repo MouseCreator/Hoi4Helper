@@ -9,7 +9,7 @@ class ResultBuilderTest {
     @Test
     void testBlocks() {
         StringResultBuilder resultBuilder = new StringResultBuilder();
-        String result = resultBuilder.append("A").openBlock().newline().append("b").newline().closeBlock().get();
+        String result = resultBuilder.append("A").equality().openBlock().newline().append("b").newline().closeBlock().newline().get();
         assertEquals("A = {\n\tb\n}\n", result);
     }
 
@@ -33,5 +33,12 @@ class ResultBuilderTest {
         String result = resultBuilder.append("A").equality().append("B").
                 space().append("C").equality().append("D").get();
         assertEquals("A = B C = D", result);
+    }
+
+    @Test
+    void testSafeSpace() {
+        StringResultBuilder resultBuilder = new StringResultBuilder();
+        String result = resultBuilder.space().spaceSafe().space().get();
+        assertEquals("  ", result);
     }
 }

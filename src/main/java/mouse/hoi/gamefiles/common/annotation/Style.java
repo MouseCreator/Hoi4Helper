@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface Style {
-    PrintStyle printStyle() default PrintStyle.COMPLEX;
+    PrintStyle printStyle();
 }
