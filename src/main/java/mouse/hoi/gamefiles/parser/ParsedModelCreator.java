@@ -1,5 +1,6 @@
 package mouse.hoi.gamefiles.parser;
 
+import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.FactoryFor;
 import mouse.hoi.gamefiles.common.annotation.Factory;
 import org.springframework.beans.factory.annotation.Autowired;

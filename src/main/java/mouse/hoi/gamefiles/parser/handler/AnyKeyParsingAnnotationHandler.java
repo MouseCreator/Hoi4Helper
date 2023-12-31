@@ -1,7 +1,7 @@
 package mouse.hoi.gamefiles.parser.handler;
 
 import mouse.hoi.gamefiles.parser.property.Property;
-import mouse.hoi.gamefiles.parser.ParseHelper;
+import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.AnyKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

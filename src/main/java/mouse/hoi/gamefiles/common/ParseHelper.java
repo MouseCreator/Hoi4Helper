@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.parser;
+package mouse.hoi.gamefiles.common;
 
 import mouse.hoi.exception.PropertyParseException;
 import org.springframework.stereotype.Service;
