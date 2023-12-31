@@ -11,12 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class OutputPropertyBuilderTest {
 
     private OutputPropertyBuilder defaultInit() {
-        OutputPropertyBuilder builder = new OutputPropertyBuilder();
-        builder.withKey("Key");
-        builder.withValue("Value");
-        builder.withChildren(new OutputPropertyImpl());
-        builder.withChildren(List.of(new OutputPropertyImpl(), new OutputPropertyImpl()));
-        return builder;
+        return new OutputPropertyBuilder()
+                .withKey("Key")
+        .withValue("Value")
+        .withChildren(new OutputPropertyImpl())
+        .withChildren(List.of(new OutputPropertyImpl(), new OutputPropertyImpl()));
     }
 
 
