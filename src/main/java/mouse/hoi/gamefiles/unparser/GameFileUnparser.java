@@ -1,9 +1,9 @@
 package mouse.hoi.gamefiles.unparser;
 
-import mouse.hoi.gamefiles.parser.property.Property;
+import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 
 import java.util.List;
 
 public interface GameFileUnparser {
-    <T> List<Property> unparseFrom(List<T> objects);
+    <T> List<OutputProperty> unparseFrom(List<T> objects);
 }
