@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.unparser.handler;
+package mouse.hoi.gamefiles.unparser.handler.annotation;
 
 import java.lang.annotation.Annotation;
 import java.util.List;

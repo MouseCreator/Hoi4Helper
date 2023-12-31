@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.unparser.handler;
+package mouse.hoi.gamefiles.unparser.handler.annotation;
 
 import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.common.annotation.Simple;
@@ -18,12 +18,12 @@ public class SimpleOutputAnnotationHandler implements OutputAnnotationHandler {
     }
 
     @Override
-    public boolean canHandle(OutputPropertyBuilder builder, List<Annotation> annotations, Object model) {
+    public boolean canHandle(OutputPropertyBuilder builder, List<Annotation> annotations) {
         return helper.hasAnnotation(annotations, Simple.class);
     }
 
     @Override
-    public void handle(OutputPropertyBuilder builder, List<Annotation> annotations, Object model) {
+    public void handle(OutputPropertyBuilder builder, List<Annotation> annotations) {
         if (builder.hasType()) {
             throw new UnparsingException("Trying to change property type from " + builder.get().getType() + " to Simple");
         }

@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.unparser.handler;
+package mouse.hoi.gamefiles.unparser.handler.annotation;
 
 import mouse.hoi.gamefiles.common.annotation.Style;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
@@ -19,12 +19,12 @@ public class StyleOutputAnnotationHandler implements OutputAnnotationHandler {
     }
 
     @Override
-    public boolean canHandle(OutputPropertyBuilder builder, List<Annotation> annotations, Object model) {
+    public boolean canHandle(OutputPropertyBuilder builder, List<Annotation> annotations) {
         return helper.hasAnnotation(annotations, Style.class);
     }
 
     @Override
-    public void handle(OutputPropertyBuilder builder, List<Annotation> annotations, Object model) {
+    public void handle(OutputPropertyBuilder builder, List<Annotation> annotations) {
         if (builder.hasStyle())
             return;
         Optional<Style> styleOptional = helper.getAnnotation(annotations, Style.class);

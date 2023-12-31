@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.unparser.handler;
+package mouse.hoi.gamefiles.unparser.handler.annotation;
 
 import mouse.hoi.gamefiles.common.annotation.ObjField;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
@@ -19,12 +19,12 @@ public class ObjFieldOutputAnnotationHandler implements OutputAnnotationHandler 
     }
 
     @Override
-    public boolean canHandle(OutputPropertyBuilder builder, List<Annotation> annotations, Object model) {
+    public boolean canHandle(OutputPropertyBuilder builder, List<Annotation> annotations) {
         return helper.hasAnnotation(annotations, ObjField.class);
     }
 
     @Override
-    public void handle(OutputPropertyBuilder builder, List<Annotation> annotations, Object model) {
+    public void handle(OutputPropertyBuilder builder, List<Annotation> annotations) {
         Optional<ObjField> objFieldAnnotation = helper.getAnnotation(annotations, ObjField.class);
         assert objFieldAnnotation.isPresent();
         String key = objFieldAnnotation.get().text();
