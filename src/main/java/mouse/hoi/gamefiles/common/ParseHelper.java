@@ -129,7 +129,7 @@ public class ParseHelper {
     }
 
     public boolean isCollectionModel(Object modelAsValue) {
-        return modelAsValue.getClass().isAssignableFrom(Collection.class);
+        return modelAsValue instanceof Collection<?>;
     }
 
     public Object getFieldValue(Object model, Field field) {

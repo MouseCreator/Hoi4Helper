@@ -2,6 +2,7 @@ package mouse.hoi.gamefiles.unparser.handler.build;
 
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.Simple;
+import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.unparser.handler.BuilderInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class SimpleAnnotationHelper implements BuilderAnnotationHelper {
         if (simpleFields.isEmpty()) {
             return new ArrayList<>();
         }
+        ForEachBuilder consumer = b -> {
+            b.withType(PropertyType.SIMPLE);
+        };
         return builderInitializer.initializeProperties(model, simpleFields);
     }
 }

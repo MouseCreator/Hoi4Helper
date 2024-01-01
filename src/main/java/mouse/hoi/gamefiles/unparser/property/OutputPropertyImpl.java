@@ -1,6 +1,7 @@
 package mouse.hoi.gamefiles.unparser.property;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.common.style.PrintStyle;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 @EqualsAndHashCode
+@ToString
 public class OutputPropertyImpl implements OutputProperty {
     private String key;
     private String value;

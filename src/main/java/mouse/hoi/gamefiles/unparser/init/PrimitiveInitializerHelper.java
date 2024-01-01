@@ -1,6 +1,7 @@
 package mouse.hoi.gamefiles.unparser.init;
 
 import mouse.hoi.gamefiles.parser.PrimitivesParser;
+import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 import org.springframework.stereotype.Service;

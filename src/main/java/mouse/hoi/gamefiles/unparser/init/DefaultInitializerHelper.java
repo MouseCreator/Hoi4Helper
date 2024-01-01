@@ -2,6 +2,7 @@ package mouse.hoi.gamefiles.unparser.init;
 
 import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.parser.PrimitivesParser;
+import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.unparser.handler.DefaultFieldHandler;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
@@ -29,6 +30,7 @@ public class DefaultInitializerHelper implements InitializerHelper {
     @Override
     public List<OutputProperty> initialize(OutputPropertyBuilder builder, Object model) {
         if (allowsDefaultInitialization(model)) {
+            builder.withType(PropertyType.FIELD_VALUE);
             return initDefault(builder, model);
         }
         return next == null ? List.of() : next.initialize(builder, model);
