@@ -23,7 +23,7 @@ class OutputPropertyInitializerImplTest {
     }
 
     @Test
-    void initializeProperty() {
+    void initializeSpriteTypes() {
         String filename= "src/test/resources/assets/parse/SampleSpriteTypes_01.txt";
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class);
@@ -39,7 +39,9 @@ class OutputPropertyInitializerImplTest {
         List<OutputProperty> properties = unparser.initializeProperty(instance);
         PropertyToStringUnparser propertyUnparser = context.getBean(PropertyToStringUnparser.class);
         String unparsedContent = propertyUnparser.unparse(properties);
-        System.out.println(unparsedContent);
+
+        //System.out.println(unparsedContent);
+
         TokenCollection tokensBefore = unparseTestHelper.tokenize(filename);
         TokenCollection tokensAfter = unparseTestHelper.tokenizeContent(unparsedContent);
 

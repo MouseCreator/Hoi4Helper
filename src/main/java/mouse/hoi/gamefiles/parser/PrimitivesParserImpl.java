@@ -125,6 +125,10 @@ public class PrimitivesParserImpl implements PrimitivesParser {
         if (accuracyAnnotation != null) {
             decimalPlaces = accuracyAnnotation.digits();
         }
+        return toFormat(val, decimalPlaces);
+    }
+
+    private String toFormat(Double val, int decimalPlaces) {
         String format = "%." + decimalPlaces + "f";
         String formatted = String.format(Locale.ENGLISH, format, val);
         DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();

@@ -11,12 +11,20 @@ public class MockCollectionTypeManager implements CollectionTypeManager {
         if (isInteger(token)) {
             return List.of(CollectionType.STATE_ID, CollectionType.PROVINCE_ID, CollectionType.STRATEGIC_REGION_ID);
         }
+        if (isDate(token)) {
+            return List.of(CollectionType.DATE);
+        }
         CollectionType type = toSingleElement(token);
         if (type == null) {
             return List.of();
         }
         return List.of(type);
 
+    }
+
+    private boolean isDate(String token) {
+        String regex = "^\\d{4}\\.\\d{2}\\.\\d{2}$";
+        return token.matches(regex);
     }
 
     private CollectionType toSingleElement(String token) {
