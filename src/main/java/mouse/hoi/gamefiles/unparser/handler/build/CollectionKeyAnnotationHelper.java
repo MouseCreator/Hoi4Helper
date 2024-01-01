@@ -14,8 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 @Service
 public class CollectionKeyAnnotationHelper implements BuilderAnnotationHelper {
-    private ParseHelper parseHelper;
-    private BuilderInitializer builderInitializer;
+    private final ParseHelper parseHelper;
+    private final BuilderInitializer builderInitializer;
+
+    public CollectionKeyAnnotationHelper(ParseHelper parseHelper, BuilderInitializer builderInitializer) {
+        this.parseHelper = parseHelper;
+        this.builderInitializer = builderInitializer;
+    }
+
     @Override
     public List<OutputProperty> toProperties(Object model) {
         List<Field> objFields = parseHelper.getFieldsWithAnnotation(model, CollectionKey.class);

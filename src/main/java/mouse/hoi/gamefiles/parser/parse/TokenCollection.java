@@ -50,4 +50,8 @@ public class TokenCollection {
     public void addToken(String token) {
         tokens.add(token);
     }
+
+    public List<String> getAll() {
+        return new ArrayList<>(tokens);
+    }
 }

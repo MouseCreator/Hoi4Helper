@@ -15,8 +15,6 @@ import java.util.List;
 
 @Service
 public class OutputPropertyInitializerImpl implements OutputPropertyInitializer {
-
-
     private final List<InitializerCaller> initializerCallers;
     private final InitializerHelperChain chain;
 

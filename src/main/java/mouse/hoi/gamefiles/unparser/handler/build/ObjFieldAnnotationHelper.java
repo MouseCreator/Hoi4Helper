@@ -2,7 +2,6 @@ package mouse.hoi.gamefiles.unparser.handler.build;
 
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.ObjField;
-import mouse.hoi.gamefiles.common.annotation.Simple;
 import mouse.hoi.gamefiles.unparser.handler.BuilderInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
@@ -15,8 +14,14 @@ import java.util.List;
 @Service
 public class ObjFieldAnnotationHelper implements BuilderAnnotationHelper {
 
-    private ParseHelper parseHelper;
-    private BuilderInitializer builderInitializer;
+    private final ParseHelper parseHelper;
+    private final BuilderInitializer builderInitializer;
+
+    public ObjFieldAnnotationHelper(ParseHelper parseHelper, BuilderInitializer builderInitializer) {
+        this.parseHelper = parseHelper;
+        this.builderInitializer = builderInitializer;
+    }
+
     @Override
     public List<OutputProperty> toProperties(Object model) {
         List<Field> objFields = parseHelper.getFieldsWithAnnotation(model, ObjField.class);

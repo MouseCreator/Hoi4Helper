@@ -1,20 +1,27 @@
 package mouse.hoi.gamefiles.unparser.init;
 
 import mouse.hoi.gamefiles.common.ParseHelper;
+import mouse.hoi.gamefiles.unparser.InitializerCaller;
 import mouse.hoi.gamefiles.unparser.OutputPropertyInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 @Service
-public class CollectionInitializerHelper implements InitializerHelper{
+public class CollectionInitializerHelper implements InitializerHelper, InitializerCaller {
 
-    private ParseHelper parseHelper;
+    private final ParseHelper parseHelper;
     private InitializerHelper next = null;
     private OutputPropertyInitializer outputPropertyInitializer;
+    @Autowired
+    public CollectionInitializerHelper(ParseHelper parseHelper) {
+        this.parseHelper = parseHelper;
+    }
+
     @Override
     public void setNext(InitializerHelper nextInitializer) {
         next = nextInitializer;
@@ -35,5 +42,10 @@ public class CollectionInitializerHelper implements InitializerHelper{
             properties.addAll(outputPropertyInitializer.initializeProperty(obj, builder.duplicate()));
         }
         return properties;
+    }
+
+    @Override
+    public void setInitializer(OutputPropertyInitializer initializer) {
+        this.outputPropertyInitializer = initializer;
     }
 }

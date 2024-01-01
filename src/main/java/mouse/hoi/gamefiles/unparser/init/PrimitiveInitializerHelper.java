@@ -3,13 +3,19 @@ package mouse.hoi.gamefiles.unparser.init;
 import mouse.hoi.gamefiles.parser.PrimitivesParser;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class PrimitiveInitializerHelper implements InitializerHelper{
 
-    private PrimitivesParser primitivesParser;
+    private final PrimitivesParser primitivesParser;
     public InitializerHelper next;
+
+    public PrimitiveInitializerHelper(PrimitivesParser primitivesParser) {
+        this.primitivesParser = primitivesParser;
+    }
+
     @Override
     public void setNext(InitializerHelper nextInitializer) {
         next = nextInitializer;

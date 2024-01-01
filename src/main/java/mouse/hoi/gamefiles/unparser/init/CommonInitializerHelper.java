@@ -2,14 +2,15 @@ package mouse.hoi.gamefiles.unparser.init;
 
 import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.unparser.handler.build.BuilderAnnotationHelper;
-import mouse.hoi.gamefiles.unparser.handler.children.BuilderAnnotationApplier;
+import mouse.hoi.gamefiles.unparser.handler.applier.BuilderAnnotationApplier;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@Service
 public class CommonInitializerHelper implements InitializerHelper {
 
     private final List<BuilderAnnotationHelper> builderAnnotationHelpers;
@@ -35,7 +36,8 @@ public class CommonInitializerHelper implements InitializerHelper {
         builder.withType(PropertyType.BLOCK);
         List<OutputProperty> children = new ArrayList<>();
         for (BuilderAnnotationHelper annotationHelper : builderAnnotationHelpers) {
-            children.addAll(annotationHelper.toProperties(model));
+            List<OutputProperty> properties = annotationHelper.toProperties(model);
+            children.addAll(properties);
         }
         builder.withChildren(children);
         return builder.get();
