@@ -5,7 +5,6 @@ import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 
 import java.util.Optional;
 
-public interface InitializerHelper {
-    void setNext(InitializerHelper nextInitializer);
+public interface InitializerHelperChain {
     Optional<OutputProperty> initialize(OutputPropertyBuilder builder, Object model);
 }

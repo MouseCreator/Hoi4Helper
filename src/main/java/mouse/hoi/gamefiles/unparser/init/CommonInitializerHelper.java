@@ -14,12 +14,16 @@ import java.util.Optional;
 public class CommonInitializerHelper implements InitializerHelper {
 
     private final List<BuilderAnnotationHelper> builderAnnotationHelpers;
-
     private final List<BuilderAnnotationApplier> annotationAppliers;
 
     public CommonInitializerHelper(List<BuilderAnnotationHelper> builderAnnotationHelpers, List<BuilderAnnotationApplier> annotationAppliers) {
         this.builderAnnotationHelpers = builderAnnotationHelpers;
         this.annotationAppliers = annotationAppliers;
+    }
+
+    @Override
+    public void setNext(InitializerHelper nextInitializer) {
+
     }
 
     @Override
