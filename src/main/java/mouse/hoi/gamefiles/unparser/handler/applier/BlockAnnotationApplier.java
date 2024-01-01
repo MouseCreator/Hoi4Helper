@@ -13,7 +13,7 @@ public class BlockAnnotationApplier implements BuilderAnnotationApplier{
             return;
         }
         String key = annotation.name();
-        if (!builder.hasKey()) {
+        if (builder.hasNoKey()) {
             builder.withKey(key);
         }
     }

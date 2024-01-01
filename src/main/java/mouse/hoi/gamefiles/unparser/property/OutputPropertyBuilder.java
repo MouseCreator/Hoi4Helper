@@ -71,24 +71,17 @@ public class OutputPropertyBuilder {
         return simple();
     }
 
-    public boolean hasKey() {
+    public boolean hasNoKey() {
         String key = property.getKey();
-        return isPresent(key);
+        return !isPresent(key);
     }
 
     private static boolean isPresent(String key) {
         return key != null && !key.isEmpty();
     }
-    public boolean hasValue() {
-        return isPresent(property.getValue());
-    }
-    public boolean hasChildren() {
-        return !property.getChildren().isEmpty();
-    }
     public boolean hasStyle() {
         return property.getStyle() != null;
     }
-
     public void toSimple() {
         property.setType(PropertyType.SIMPLE);
     }
@@ -100,7 +93,7 @@ public class OutputPropertyBuilder {
     }
 
     public OutputProperty get() {
-        if (property.getType()!=PropertyType.SIMPLE && !hasKey()) {
+        if (property.getType()!=PropertyType.SIMPLE && hasNoKey()) {
             throw new UnparsingException("Trying to get not initialized property " + property);
         }
         return completeAndGet();
