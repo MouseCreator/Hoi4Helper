@@ -102,7 +102,7 @@ public class OutputPropertyBuilder {
         if (property.getType()==null) {
             throw new IllegalStateException("Trying to get property without type initialized type" + property);
         }
-        return property;
+        return completeAndGet();
     }
 
     public boolean hasType() {

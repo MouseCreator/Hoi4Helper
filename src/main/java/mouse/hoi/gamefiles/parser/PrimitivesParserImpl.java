@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 @Service
 public class PrimitivesParserImpl implements PrimitivesParser {
@@ -93,6 +96,15 @@ public class PrimitivesParserImpl implements PrimitivesParser {
 
     @Override
     public String convertToString(Object model, List<Annotation> toAnnotations) {
+        String result = convert(model, toAnnotations);
+        if (hasAnnotation(toAnnotations, UseQuotes.class)) {
+            return stringFormatter.addQuotes(result);
+        } else {
+            return result;
+        }
+    }
+
+    private String convert(Object model, List<Annotation> toAnnotations) {
         Class<?> aClass = model.getClass();
         if (aClass == Double.class) {
             return unparseDouble((Double) model, toAnnotations);
@@ -113,6 +125,13 @@ public class PrimitivesParserImpl implements PrimitivesParser {
         if (accuracyAnnotation != null) {
             decimalPlaces = accuracyAnnotation.digits();
         }
-        return String.format("%." + decimalPlaces + "f", val);
+        String format = "%." + decimalPlaces + "f";
+        String formatted = String.format(Locale.ENGLISH, format, val);
+        DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("0.#", decimalFormatSymbols);
+        decimalFormat.setMaximumFractionDigits(decimalPlaces);
+        decimalFormat.setMinimumFractionDigits(1);
+        return decimalFormat.format(Double.parseDouble(formatted));
     }
 }
