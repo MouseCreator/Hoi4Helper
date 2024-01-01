@@ -9,12 +9,12 @@ import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class CommonInitializerHelper implements InitializerHelper {
 
     private final List<BuilderAnnotationHelper> builderAnnotationHelpers;
     private final List<BuilderAnnotationApplier> annotationAppliers;
+    private InitializerHelper next = null;
 
     public CommonInitializerHelper(List<BuilderAnnotationHelper> builderAnnotationHelpers, List<BuilderAnnotationApplier> annotationAppliers) {
         this.builderAnnotationHelpers = builderAnnotationHelpers;
@@ -23,13 +23,13 @@ public class CommonInitializerHelper implements InitializerHelper {
 
     @Override
     public void setNext(InitializerHelper nextInitializer) {
-
+        next = nextInitializer;
     }
 
     @Override
-    public Optional<OutputProperty> initialize(OutputPropertyBuilder builder, Object model) {
+    public List<OutputProperty> initialize(OutputPropertyBuilder builder, Object model) {
         applyAnnotations(builder, model);
-        return Optional.of(getOutputProperties(model, builder));
+        return List.of(getOutputProperties(model, builder));
     }
     private OutputProperty getOutputProperties(Object model, OutputPropertyBuilder builder) {
         builder.withType(PropertyType.BLOCK);

@@ -17,9 +17,11 @@ import java.util.List;
 public class BuilderInitializer {
     private final ParseHelper parseHelper;
     private OutputPropertyInitializer initializer;
+    private final DefaultFieldHandler defaultFieldHandler;
     @Autowired
-    public BuilderInitializer(ParseHelper parseHelper) {
+    public BuilderInitializer(ParseHelper parseHelper, DefaultFieldHandler defaultFieldHandler) {
         this.parseHelper = parseHelper;
+        this.defaultFieldHandler = defaultFieldHandler;
     }
 
     public void setInitializer(OutputPropertyInitializer initializer) {
@@ -29,7 +31,7 @@ public class BuilderInitializer {
     public List<OutputPropertyBuilder> initializeProperties(Object model, List<Field> fieldList) {
         List<OutputPropertyBuilder> result = new ArrayList<>();
         result.addAll(handleOrderedFields(model, fieldList));
-        result.addAll(handleNotOrderedFields(fieldList));
+        result.addAll(handleNotOrderedFields(model, fieldList));
         return result;
     }
 
@@ -52,12 +54,22 @@ public class BuilderInitializer {
                         + i + " while parsing "
                         + model.getClass().getSimpleName());
             }
-            list.add(createPropertyFromField(field));
+            initAndAddProperty(model, list, field);
         }
         return list;
     }
 
-    private OutputPropertyBuilder createPropertyFromField(Field field) {
+    private void initAndAddProperty(Object model, List<OutputPropertyBuilder> list, Field field) {
+        OutputPropertyBuilder property = createPropertyFromField(model, field);
+        if (property != null) {
+            list.add(property);
+        }
+    }
+
+    private OutputPropertyBuilder createPropertyFromField(Object model, Field field) {
+        if (isDefaultFields(model, field)) {
+            return null;
+        }
         OutputPropertyBuilder builder = new OutputPropertyBuilder();
         builder.withAnnotations(parseHelper.getAnnotations(field));
         return builder;
@@ -74,13 +86,17 @@ public class BuilderInitializer {
         return fieldMap;
     }
 
-    private List<OutputPropertyBuilder> handleNotOrderedFields(List<Field> fieldList) {
+    private List<OutputPropertyBuilder> handleNotOrderedFields(Object model, List<Field> fieldList) {
         List<Field> notOrderedFields = fieldList.stream()
                 .filter(f -> !f.isAnnotationPresent(Ordered.class)).toList();
         List<OutputPropertyBuilder> list = new ArrayList<>();
         for (Field field : notOrderedFields) {
-            list.add(createPropertyFromField(field));
+            initAndAddProperty(model, list, field);
         }
         return list;
+    }
+
+    private boolean isDefaultFields(Object model, Field field) {
+        return defaultFieldHandler.isDefaultField(model, field);
     }
 }

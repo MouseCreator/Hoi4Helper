@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Optional;
+import java.util.List;
 @Service
 public class InitializerHelperChainImpl implements InitializerHelperChain {
 
@@ -54,7 +54,7 @@ public class InitializerHelperChainImpl implements InitializerHelperChain {
     }
 
     @Override
-    public Optional<OutputProperty> initialize(OutputPropertyBuilder builder, Object model) {
+    public List<OutputProperty> initialize(OutputPropertyBuilder builder, Object model) {
         return begin.initialize(builder, model);
     }
 }

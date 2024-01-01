@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 @Service
 public class ParsedModelCreator implements ModelCreator {
     private final ApplicationContext applicationContext;
@@ -50,7 +52,7 @@ public class ParsedModelCreator implements ModelCreator {
     public Object lookup(Class<?> className) {
         FactoryWithMethod factoryWithMethod = map.get(className);
         if (factoryWithMethod == null) {
-            throw new IllegalStateException("No factory for class " + className + " provided");
+            throw new NoSuchElementException("No factory for class " + className + " provided");
         }
         try {
             return factoryWithMethod.method.invoke(factoryWithMethod.factory);
