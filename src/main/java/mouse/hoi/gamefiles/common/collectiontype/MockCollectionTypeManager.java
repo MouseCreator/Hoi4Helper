@@ -23,7 +23,7 @@ public class MockCollectionTypeManager implements CollectionTypeManager {
     }
 
     private boolean isDate(String token) {
-        String regex = "^\\d{4}\\.\\d{2}\\.\\d{2}$";
+        String regex = "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}$";
         return token.matches(regex);
     }
 
