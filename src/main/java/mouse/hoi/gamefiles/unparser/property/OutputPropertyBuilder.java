@@ -1,6 +1,5 @@
 package mouse.hoi.gamefiles.unparser.property;
 
-import mouse.hoi.gamefiles.common.annotation.Simple;
 import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.common.style.PrintStyle;
 
@@ -141,4 +140,6 @@ public class OutputPropertyBuilder {
         }
         return Optional.empty();
     }
+
+
 }

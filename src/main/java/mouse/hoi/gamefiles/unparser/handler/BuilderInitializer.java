@@ -5,6 +5,7 @@ import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.Ordered;
 import mouse.hoi.gamefiles.unparser.InitializerCaller;
 import mouse.hoi.gamefiles.unparser.OutputPropertyInitializer;
+import mouse.hoi.gamefiles.unparser.handler.build.ForEachBuilder;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,25 +30,29 @@ public class BuilderInitializer implements InitializerCaller {
         this.initializer = initializer;
     }
 
-    public List<OutputPropertyBuilder> initializeProperties(Object model, List<Field> fieldList) {
-        List<OutputPropertyBuilder> result = new ArrayList<>();
-        result.addAll(handleOrderedFields(model, fieldList));
-        result.addAll(handleNotOrderedFields(model, fieldList));
+    public List<OutputProperty> initializeProperties(Object model, List<Field> fieldList, ForEachBuilder consumer) {
+        return initializeWithBuilders(model, fieldList, consumer);
+    }
+
+    public List<OutputProperty> initializeProperties(Object model, List<Field> fields) {
+        return initializeProperties(model, fields, b->{});
+    }
+
+    private List<OutputProperty> createChildProperty(Object child, OutputPropertyBuilder builder) {
+        return initializer.initializeProperty(child, builder);
+    }
+
+    private List<OutputProperty> initializeWithBuilders(Object model, List<Field> fieldList, ForEachBuilder consumer) {
+        List<OutputProperty> result = new ArrayList<>();
+        result.addAll(handleOrderedFields(model, fieldList, consumer));
+        result.addAll(handleNotOrderedFields(model, fieldList, consumer));
         return result;
     }
 
-    public List<OutputProperty> toProperty(Object model, List<OutputPropertyBuilder> builders) {
-        List<OutputProperty> properties = new ArrayList<>();
-        for (OutputPropertyBuilder builder : builders) {
-            properties.addAll(initializer.initializeProperty(model, builder));
-        }
-        return properties;
-    }
 
-
-    private List<OutputPropertyBuilder> handleOrderedFields(Object model, List<Field> fieldList) {
+    private List<OutputProperty> handleOrderedFields(Object model, List<Field> fieldList, ForEachBuilder consumer) {
         HashMap<Integer,Field> orderedFields = getWithOrderAnnotation(fieldList);
-        List<OutputPropertyBuilder> list = new ArrayList<>();
+        List<OutputProperty> list = new ArrayList<>();
         for (int i = 0; i < orderedFields.size(); i++) {
             Field field = orderedFields.get(i);
             if (field == null) {
@@ -55,22 +60,25 @@ public class BuilderInitializer implements InitializerCaller {
                         + i + " while parsing "
                         + model.getClass().getSimpleName());
             }
-            initAndAddProperty(model, list, field);
+            initAndAddProperty(model, list, field, consumer);
         }
         return list;
     }
 
-    private void initAndAddProperty(Object model, List<OutputPropertyBuilder> list, Field field) {
+    private void initAndAddProperty(Object model, List<OutputProperty> list, Field field, ForEachBuilder consumer) {
         if (isDefaultFields(model, field)) {
             return;
         }
-        OutputPropertyBuilder property = createPropertyFromField(field);
-        list.add(property);
+        Object fieldValue = parseHelper.getFieldValue(model, field);
+        OutputPropertyBuilder builder = createPropertyFromField(field, consumer);
+        List<OutputProperty> childProperty = createChildProperty(fieldValue, builder);
+        list.addAll(childProperty);
     }
 
-    private OutputPropertyBuilder createPropertyFromField(Field field) {
+    private OutputPropertyBuilder createPropertyFromField(Field field, ForEachBuilder consumer) {
         OutputPropertyBuilder builder = new OutputPropertyBuilder();
         builder.withAnnotations(parseHelper.getAnnotations(field));
+        consumer.accept(builder);
         return builder;
     }
     private HashMap<Integer, Field> getWithOrderAnnotation(List<Field> fieldList) {
@@ -85,12 +93,12 @@ public class BuilderInitializer implements InitializerCaller {
         return fieldMap;
     }
 
-    private List<OutputPropertyBuilder> handleNotOrderedFields(Object model, List<Field> fieldList) {
+    private List<OutputProperty> handleNotOrderedFields(Object model, List<Field> fieldList, ForEachBuilder consumer) {
         List<Field> notOrderedFields = fieldList.stream()
                 .filter(f -> !f.isAnnotationPresent(Ordered.class)).toList();
-        List<OutputPropertyBuilder> list = new ArrayList<>();
+        List<OutputProperty> list = new ArrayList<>();
         for (Field field : notOrderedFields) {
-            initAndAddProperty(model, list, field);
+            initAndAddProperty(model, list, field, consumer);
         }
         return list;
     }
@@ -98,4 +106,5 @@ public class BuilderInitializer implements InitializerCaller {
     private boolean isDefaultFields(Object model, Field field) {
         return defaultFieldHandler.isDefaultField(model, field);
     }
+
 }

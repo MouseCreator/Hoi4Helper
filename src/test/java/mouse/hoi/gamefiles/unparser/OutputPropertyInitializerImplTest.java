@@ -31,14 +31,15 @@ class OutputPropertyInitializerImplTest {
 
         ParsingResult<SpriteTypes> spriteTypesParsingResult = parser.parseAndGet(SpriteTypes.class, filename);
         assertEquals(1, spriteTypesParsingResult.size());
+        SpriteTypes instance = spriteTypesParsingResult.getFirst();
 
+        assertEquals(2, instance.getSpriteTypes().size());
         OutputPropertyInitializer unparser = context.getBean(OutputPropertyInitializer.class);
 
-        SpriteTypes instance = spriteTypesParsingResult.getFirst();
         List<OutputProperty> properties = unparser.initializeProperty(instance);
         PropertyToStringUnparser propertyUnparser = context.getBean(PropertyToStringUnparser.class);
         String unparsedContent = propertyUnparser.unparse(properties);
-
+        System.out.println(unparsedContent);
         TokenCollection tokensBefore = unparseTestHelper.tokenize(filename);
         TokenCollection tokensAfter = unparseTestHelper.tokenizeContent(unparsedContent);
 

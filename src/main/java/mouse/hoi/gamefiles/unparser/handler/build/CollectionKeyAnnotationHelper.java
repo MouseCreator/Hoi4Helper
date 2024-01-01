@@ -5,7 +5,6 @@ import mouse.hoi.gamefiles.common.annotation.CollectionKey;
 import mouse.hoi.gamefiles.common.collectiontype.CollectionType;
 import mouse.hoi.gamefiles.unparser.handler.BuilderInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
-import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -29,8 +28,7 @@ public class CollectionKeyAnnotationHelper implements BuilderAnnotationHelper {
         List<OutputProperty> result = new ArrayList<>();
         for (CollectionType key : fieldsByKeys.keySet()) {
             List<Field> fields = fieldsByKeys.get(key);
-            List<OutputPropertyBuilder> builders = builderInitializer.initializeProperties(model, fields);
-            result.addAll(builderInitializer.toProperty(model, builders));
+            result.addAll(builderInitializer.initializeProperties(model, fields));
         }
         return result;
     }
