@@ -14,7 +14,7 @@ public class CommonInitializerHelper implements InitializerHelper {
 
     private final List<BuilderAnnotationHelper> builderAnnotationHelpers;
     private final List<BuilderAnnotationApplier> annotationAppliers;
-    private InitializerHelper next = null;
+
 
     public CommonInitializerHelper(List<BuilderAnnotationHelper> builderAnnotationHelpers, List<BuilderAnnotationApplier> annotationAppliers) {
         this.builderAnnotationHelpers = builderAnnotationHelpers;
@@ -23,7 +23,7 @@ public class CommonInitializerHelper implements InitializerHelper {
 
     @Override
     public void setNext(InitializerHelper nextInitializer) {
-        next = nextInitializer;
+
     }
 
     @Override

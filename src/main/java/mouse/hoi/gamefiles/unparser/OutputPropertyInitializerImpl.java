@@ -3,7 +3,6 @@ package mouse.hoi.gamefiles.unparser;
 import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.common.annotation.SkipDeclaration;
 import mouse.hoi.gamefiles.parser.property.PropertyType;
-import mouse.hoi.gamefiles.unparser.handler.BuilderInitializer;
 import mouse.hoi.gamefiles.unparser.init.InitializerHelperChain;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
@@ -18,17 +17,19 @@ import java.util.List;
 public class OutputPropertyInitializerImpl implements OutputPropertyInitializer {
 
 
-    private final BuilderInitializer builderInitializer;
+    private final List<InitializerCaller> initializerCallers;
     private final InitializerHelperChain chain;
 
-    public OutputPropertyInitializerImpl(BuilderInitializer builderInitializer, InitializerHelperChain chain) {
-        this.builderInitializer = builderInitializer;
+    public OutputPropertyInitializerImpl(List<InitializerCaller> initializerCallers, InitializerHelperChain chain) {
+        this.initializerCallers = initializerCallers;
         this.chain = chain;
     }
 
     @PostConstruct
     public void init() {
-        builderInitializer.setInitializer(this);
+        for (InitializerCaller caller : initializerCallers) {
+            caller.setInitializer(this);
+        }
     }
 
     @Override
@@ -57,14 +58,5 @@ public class OutputPropertyInitializerImpl implements OutputPropertyInitializer 
     public List<OutputProperty> initializeProperty(Object model, OutputPropertyBuilder builder) {
         return chain.initialize(builder, model);
     }
-
-    private List<OutputProperty> processModel(Object model, OutputPropertyBuilder builder) {
-        return List.of();
-    }
-
-
-
-
-
 
 }

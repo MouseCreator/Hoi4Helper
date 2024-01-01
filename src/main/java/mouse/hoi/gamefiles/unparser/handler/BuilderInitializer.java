@@ -3,6 +3,7 @@ package mouse.hoi.gamefiles.unparser.handler;
 import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.Ordered;
+import mouse.hoi.gamefiles.unparser.InitializerCaller;
 import mouse.hoi.gamefiles.unparser.OutputPropertyInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 @Service
-public class BuilderInitializer {
+public class BuilderInitializer implements InitializerCaller {
     private final ParseHelper parseHelper;
     private OutputPropertyInitializer initializer;
     private final DefaultFieldHandler defaultFieldHandler;
@@ -23,7 +24,7 @@ public class BuilderInitializer {
         this.parseHelper = parseHelper;
         this.defaultFieldHandler = defaultFieldHandler;
     }
-
+    @Override
     public void setInitializer(OutputPropertyInitializer initializer) {
         this.initializer = initializer;
     }
@@ -60,16 +61,14 @@ public class BuilderInitializer {
     }
 
     private void initAndAddProperty(Object model, List<OutputPropertyBuilder> list, Field field) {
-        OutputPropertyBuilder property = createPropertyFromField(model, field);
-        if (property != null) {
-            list.add(property);
+        if (isDefaultFields(model, field)) {
+            return;
         }
+        OutputPropertyBuilder property = createPropertyFromField(field);
+        list.add(property);
     }
 
-    private OutputPropertyBuilder createPropertyFromField(Object model, Field field) {
-        if (isDefaultFields(model, field)) {
-            return null;
-        }
+    private OutputPropertyBuilder createPropertyFromField(Field field) {
         OutputPropertyBuilder builder = new OutputPropertyBuilder();
         builder.withAnnotations(parseHelper.getAnnotations(field));
         return builder;

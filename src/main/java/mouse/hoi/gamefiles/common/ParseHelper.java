@@ -112,7 +112,7 @@ public class ParseHelper {
         return field -> field.isAnnotationPresent(annotation);
     }
 
-    private List<Field> getFields(Object model) {
+    public List<Field> getFields(Object model) {
         return Arrays.asList(toClass(model).getDeclaredFields());
     }
 
