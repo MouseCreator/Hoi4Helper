@@ -1,5 +1,6 @@
 package mouse.hoi.gamefiles.unparser.property;
 
+import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.common.style.PrintStyle;
 
@@ -99,14 +100,10 @@ public class OutputPropertyBuilder {
     }
 
     public OutputProperty get() {
-        if (property.getType()==null) {
-            throw new IllegalStateException("Trying to get property without type initialized type" + property);
+        if (property.getType()!=PropertyType.SIMPLE && !hasKey()) {
+            throw new UnparsingException("Trying to get not initialized property " + property);
         }
         return completeAndGet();
-    }
-
-    public boolean hasType() {
-        return property.getType() != null;
     }
 
     public OutputPropertyBuilder duplicate() {
@@ -139,6 +136,13 @@ public class OutputPropertyBuilder {
             }
         }
         return Optional.empty();
+    }
+
+    public void simplify() {
+        if (property.getType()==PropertyType.SIMPLE) {
+            return;
+        }
+        property.setType(PropertyType.FIELD_VALUE);
     }
 
 

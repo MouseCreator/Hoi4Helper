@@ -19,7 +19,7 @@ public class OutputPropertyImpl implements OutputProperty {
     public OutputPropertyImpl() {
         key = "";
         value = "";
-        type = null;
+        type = PropertyType.BLOCK;
         printStyle = null;
         children = new ArrayList<>();
     }

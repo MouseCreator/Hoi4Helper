@@ -28,9 +28,7 @@ public class SimpleAnnotationHelper implements BuilderAnnotationHelper {
         if (simpleFields.isEmpty()) {
             return new ArrayList<>();
         }
-        ForEachBuilder consumer = b -> {
-            b.withType(PropertyType.SIMPLE);
-        };
-        return builderInitializer.initializeProperties(model, simpleFields);
+        ForEachBuilder consumer = b -> b.withType(PropertyType.SIMPLE);
+        return builderInitializer.initializeProperties(model, simpleFields, consumer);
     }
 }

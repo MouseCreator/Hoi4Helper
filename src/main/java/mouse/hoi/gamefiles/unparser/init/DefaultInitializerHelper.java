@@ -43,6 +43,7 @@ public class DefaultInitializerHelper implements InitializerHelper {
         }
         String value = primitivesParser.convertToString(obj, builder.getAnnotations());
         builder.withValue(value);
+        builder.simplify();
         return List.of(builder.get());
     }
 

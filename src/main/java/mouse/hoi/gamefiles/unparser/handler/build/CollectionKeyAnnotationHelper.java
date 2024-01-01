@@ -15,7 +15,6 @@ import java.util.List;
 public class CollectionKeyAnnotationHelper implements BuilderAnnotationHelper {
     private final ParseHelper parseHelper;
     private final BuilderInitializer builderInitializer;
-
     public CollectionKeyAnnotationHelper(ParseHelper parseHelper, BuilderInitializer builderInitializer) {
         this.parseHelper = parseHelper;
         this.builderInitializer = builderInitializer;

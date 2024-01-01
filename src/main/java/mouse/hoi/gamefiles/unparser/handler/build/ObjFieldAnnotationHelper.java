@@ -2,7 +2,6 @@ package mouse.hoi.gamefiles.unparser.handler.build;
 
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.ObjField;
-import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.unparser.handler.BuilderInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import org.springframework.stereotype.Service;
@@ -30,10 +29,7 @@ public class ObjFieldAnnotationHelper implements BuilderAnnotationHelper {
         List<OutputProperty> result = new ArrayList<>();
         for (String key : fieldsByKeys.keySet()) {
             List<Field> fields = fieldsByKeys.get(key);
-            ForEachBuilder consumer = b -> {
-                b.withKey(key);
-                b.withType(PropertyType.FIELD_VALUE);
-            };
+            ForEachBuilder consumer = b -> b.withKey(key);
             List<OutputProperty> properties = builderInitializer.initializeProperties(model, fields, consumer);
             result.addAll(properties);
         }
