@@ -23,29 +23,34 @@ class OutputPropertyInitializerImplTest {
     }
 
     @Test
-    void initializeSpriteTypes() {
+    void initializeGoalSpriteTypes() {
         String filename= "src/test/resources/assets/parse/SampleSpriteTypes_02.txt";
+        runFor(filename, 5);
+    }
+    @Test
+    void initializeShineSpriteTypes() {
+        String filename= "src/test/resources/assets/parse/SampleSpriteTypes_01.txt";
+        runFor(filename, 2);
+    }
 
+    void runFor(String file, int expectedElements) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class);
         GameFileParseService parser = context.getBean(GameFileParseService.class);
 
-        ParsingResult<SpriteTypes> spriteTypesParsingResult = parser.parseAndGet(SpriteTypes.class, filename);
+        ParsingResult<SpriteTypes> spriteTypesParsingResult = parser.parseAndGet(SpriteTypes.class, file);
         assertEquals(1, spriteTypesParsingResult.size());
         SpriteTypes instance = spriteTypesParsingResult.getFirst();
 
-        assertEquals(5, instance.getSpriteTypes().size());
+        assertEquals(expectedElements, instance.getSpriteTypes().size());
         OutputPropertyInitializer unparser = context.getBean(OutputPropertyInitializer.class);
 
         List<OutputProperty> properties = unparser.initializeProperty(instance);
         PropertyToStringUnparser propertyUnparser = context.getBean(PropertyToStringUnparser.class);
         String unparsedContent = propertyUnparser.unparse(properties);
 
-        System.out.println(unparsedContent);
-
-        TokenCollection tokensBefore = unparseTestHelper.tokenize(filename);
+        TokenCollection tokensBefore = unparseTestHelper.tokenize(file);
         TokenCollection tokensAfter = unparseTestHelper.tokenizeContent(unparsedContent);
 
         unparseTestHelper.compareTokens(tokensBefore, tokensAfter);
-
     }
 }
