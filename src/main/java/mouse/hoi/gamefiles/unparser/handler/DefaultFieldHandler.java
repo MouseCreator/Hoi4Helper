@@ -3,8 +3,8 @@ package mouse.hoi.gamefiles.unparser.handler;
 import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.DefaultField;
-import mouse.hoi.gamefiles.common.annotation.OmitIfAsInDefault;
-import mouse.hoi.gamefiles.common.annotation.OmitIfDefault;
+import mouse.hoi.gamefiles.common.annotation.OmitIfMatchesDefault;
+import mouse.hoi.gamefiles.common.annotation.OmitIfSelfDefault;
 import mouse.hoi.gamefiles.common.annotation.OmitIfEquals;
 import mouse.hoi.gamefiles.parser.PrimitivesParser;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,10 @@ public class DefaultFieldHandler {
     }
 
     public boolean isDefaultField(Object model, Field field) {
-        if (field.isAnnotationPresent(OmitIfAsInDefault.class)) {
+        if (field.isAnnotationPresent(OmitIfMatchesDefault.class)) {
             return handleOmitIfAsInDefault(model, field);
         }
-        if (field.isAnnotationPresent(OmitIfDefault.class)) {
+        if (field.isAnnotationPresent(OmitIfSelfDefault.class)) {
             return handleOmitIfDefault(model, field);
         }
         if (field.isAnnotationPresent(OmitIfEquals.class)) {

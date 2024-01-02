@@ -19,11 +19,11 @@ public class SpriteType {
     private String textureFile;
     @ObjField(text = "effectFile")
     @UseQuotes
-    @OmitIfAsInDefault
+    @OmitIfMatchesDefault
     @Priority(8)
     private String effectFile;
     @ObjField(text = "legacy_lazy_load")
-    @OmitIfAsInDefault
+    @OmitIfMatchesDefault
     @Priority(-1)
     private Boolean lazyLoad;
     @ObjField(text = "animation")
