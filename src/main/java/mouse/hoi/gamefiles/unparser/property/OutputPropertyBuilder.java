@@ -1,6 +1,7 @@
 package mouse.hoi.gamefiles.unparser.property;
 
 import mouse.hoi.exception.UnparsingException;
+import mouse.hoi.gamefiles.common.annotation.OmitIfEmpty;
 import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.common.style.PrintStyle;
 
@@ -139,4 +140,7 @@ public class OutputPropertyBuilder {
     }
 
 
+    public boolean hasAnnotation(Class<? extends Annotation> annotationClass) {
+        return getAnnotation(annotationClass).isEmpty();
+    }
 }

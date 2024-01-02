@@ -1,4 +1,4 @@
-package mouse.hoi.factory;
+package mouse.hoi.gamefiles.factory;
 
 import mouse.hoi.gamefiles.tempmodel.DoublePosition;
 import mouse.hoi.gamefiles.tempmodel.texture.Animation;

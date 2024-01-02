@@ -1,8 +1,8 @@
 package mouse.hoi.parser;
 
 import mouse.hoi.config.spring.TestConfig;
-import mouse.hoi.factory.AnimationFactory;
-import mouse.hoi.factory.SpriteTypeFactory;
+import mouse.hoi.gamefiles.factory.AnimationFactory;
+import mouse.hoi.gamefiles.factory.SpriteTypeFactory;
 import mouse.hoi.gamefiles.parser.GameFileParser;
 import mouse.hoi.lib.filemanager.FileManager;
 import mouse.hoi.gamefiles.tempmodel.DoublePosition;

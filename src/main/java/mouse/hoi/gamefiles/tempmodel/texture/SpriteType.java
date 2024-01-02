@@ -1,9 +1,7 @@
 package mouse.hoi.gamefiles.tempmodel.texture;
 
 import lombok.Data;
-import mouse.hoi.gamefiles.common.annotation.Block;
-import mouse.hoi.gamefiles.common.annotation.ObjField;
-import mouse.hoi.gamefiles.common.annotation.UseQuotes;
+import mouse.hoi.gamefiles.common.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +17,12 @@ public class SpriteType {
     private String textureFile;
     @ObjField(text = "effectFile")
     @UseQuotes
+    @OmitIfDefault
     private String effectFile;
     @ObjField(text = "legacy_lazy_load")
+    @OmitIfDefault
     private Boolean lazyLoad;
     @ObjField(text = "animation")
+    @OmitIfEmpty
     private List<Animation> animationList;
 }

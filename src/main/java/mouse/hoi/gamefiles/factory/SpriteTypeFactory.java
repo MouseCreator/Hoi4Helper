@@ -1,4 +1,4 @@
-package mouse.hoi.factory;
+package mouse.hoi.gamefiles.factory;
 
 import mouse.hoi.gamefiles.tempmodel.texture.SpriteType;
 import mouse.hoi.gamefiles.tempmodel.texture.SpriteTypes;
@@ -15,6 +15,7 @@ public class SpriteTypeFactory {
     public SpriteType getSpriteType() {
         SpriteType spriteType = new SpriteType();
         spriteType.setAnimationList(new ArrayList<>());
+        spriteType.setLazyLoad(true);
         return spriteType;
     }
 

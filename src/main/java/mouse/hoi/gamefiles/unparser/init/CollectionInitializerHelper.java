@@ -1,6 +1,7 @@
 package mouse.hoi.gamefiles.unparser.init;
 
 import mouse.hoi.gamefiles.common.ParseHelper;
+import mouse.hoi.gamefiles.common.annotation.OmitIfEmpty;
 import mouse.hoi.gamefiles.unparser.InitializerCaller;
 import mouse.hoi.gamefiles.unparser.OutputPropertyInitializer;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
@@ -36,8 +37,14 @@ public class CollectionInitializerHelper implements InitializerHelper, Initializ
     }
 
     private List<OutputProperty> processCollection(Object model, OutputPropertyBuilder builder) {
+
         Collection<?> collection = (Collection<?>) model;
         List<OutputProperty> properties = new ArrayList<>();
+        if (builder.hasAnnotation(OmitIfEmpty.class)) {
+            if (collection.isEmpty()) {
+                return properties;
+            }
+        }
         for (Object obj : collection) {
             properties.addAll(outputPropertyInitializer.initializeProperty(obj, builder.duplicate()));
         }
