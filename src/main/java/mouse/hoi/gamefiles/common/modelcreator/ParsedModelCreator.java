@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.parser;
+package mouse.hoi.gamefiles.common.modelcreator;
 
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.FactoryFor;

@@ -2,6 +2,7 @@ package mouse.hoi.gamefiles.parser;
 
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.gamefiles.common.ParseHelper;
+import mouse.hoi.gamefiles.common.modelcreator.ModelCreator;
 import mouse.hoi.gamefiles.parser.handler.ParsingAnnotationHandler;
 import mouse.hoi.gamefiles.parser.property.BlockProperty;
 import mouse.hoi.gamefiles.parser.property.Property;
