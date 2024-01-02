@@ -1,15 +1,11 @@
 package mouse.hoi.gamefiles.unparser.property;
 
 import mouse.hoi.exception.UnparsingException;
-import mouse.hoi.gamefiles.common.annotation.OmitIfEmpty;
 import mouse.hoi.gamefiles.parser.property.PropertyType;
 import mouse.hoi.gamefiles.common.style.PrintStyle;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class OutputPropertyBuilder {
     private final OutputProperty property;
@@ -25,8 +21,16 @@ public class OutputPropertyBuilder {
             property.setStyle(PrintStyle.COMPLEX);
         }
     }
+    private void completeChildren() {
+        List<OutputProperty> children = property.getChildren();
+        if (!children.isEmpty()) {
+            children.sort(Comparator.comparingInt(OutputProperty::getPriority).reversed());
+            property.setChildren(children);
+        }
+    }
     private OutputProperty completeAndGet() {
         completeStyle();
+        completeChildren();
         return property;
     }
     public OutputProperty simple() {
@@ -141,6 +145,18 @@ public class OutputPropertyBuilder {
 
 
     public boolean hasAnnotation(Class<? extends Annotation> annotationClass) {
-        return getAnnotation(annotationClass).isEmpty();
+        return getAnnotation(annotationClass).isPresent();
+    }
+
+    @Override
+    public String toString() {
+        return "OutputPropertyBuilder{" +
+                "\nproperty=" + property +
+                "\nactiveAnnotations=" + activeAnnotations +
+                '}';
+    }
+
+    public void withPriority(int value) {
+        property.setPriority(value);
     }
 }

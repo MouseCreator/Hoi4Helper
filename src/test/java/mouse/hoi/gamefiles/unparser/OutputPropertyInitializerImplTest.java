@@ -24,7 +24,7 @@ class OutputPropertyInitializerImplTest {
 
     @Test
     void initializeSpriteTypes() {
-        String filename= "src/test/resources/assets/parse/SampleSpriteTypes_01.txt";
+        String filename= "src/test/resources/assets/parse/SampleSpriteTypes_02.txt";
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class);
         GameFileParseService parser = context.getBean(GameFileParseService.class);
@@ -33,14 +33,14 @@ class OutputPropertyInitializerImplTest {
         assertEquals(1, spriteTypesParsingResult.size());
         SpriteTypes instance = spriteTypesParsingResult.getFirst();
 
-        assertEquals(2, instance.getSpriteTypes().size());
+        assertEquals(5, instance.getSpriteTypes().size());
         OutputPropertyInitializer unparser = context.getBean(OutputPropertyInitializer.class);
 
         List<OutputProperty> properties = unparser.initializeProperty(instance);
         PropertyToStringUnparser propertyUnparser = context.getBean(PropertyToStringUnparser.class);
         String unparsedContent = propertyUnparser.unparse(properties);
 
-        //System.out.println(unparsedContent);
+        System.out.println(unparsedContent);
 
         TokenCollection tokensBefore = unparseTestHelper.tokenize(filename);
         TokenCollection tokensAfter = unparseTestHelper.tokenizeContent(unparsedContent);

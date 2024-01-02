@@ -11,12 +11,14 @@ public interface OutputProperty {
     void setValue(String value);
     void setType(PropertyType propertyType);
     void setStyle(PrintStyle printStyle);
+    void setPriority(int priority);
+    int getPriority();
     String getKey();
     String getValue();
     PropertyType getType();
     PrintStyle getStyle();
     List<OutputProperty> getChildren();
-
     void addChild(OutputProperty newProperty);
     void addChildren(Collection<OutputProperty> newProperty);
+    void setChildren(List<OutputProperty> children);
 }

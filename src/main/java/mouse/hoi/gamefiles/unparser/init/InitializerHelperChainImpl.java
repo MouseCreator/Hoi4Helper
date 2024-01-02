@@ -14,11 +14,23 @@ public class InitializerHelperChainImpl implements InitializerHelperChain {
     private DefaultInitializerHelper defaultInitializerHelper;
     private PrimitiveInitializerHelper primitiveInitializerHelper;
     private CollectionInitializerHelper collectionInitializerHelper;
+    private EmptyInitializerHelper emptyInitializerHelper;
+    private ApplyInitializer applyInitializer;
     private InitializerHelper begin;
+    @Autowired
+    public void setApplyInitializer(ApplyInitializer applyInitializer) {
+        this.applyInitializer = applyInitializer;
+    }
+
     @Autowired
     public void setCommonInitializerHelper(CommonInitializerHelper commonInitializerHelper) {
         this.commonInitializerHelper = commonInitializerHelper;
     }
+    @Autowired
+    public void setEmptyInitializerHelper(EmptyInitializerHelper emptyInitializerHelper) {
+        this.emptyInitializerHelper = emptyInitializerHelper;
+    }
+
     @Autowired
     public void setDefaultInitializerHelper(DefaultInitializerHelper defaultInitializerHelper) {
         this.defaultInitializerHelper = defaultInitializerHelper;
@@ -34,7 +46,9 @@ public class InitializerHelperChainImpl implements InitializerHelperChain {
 
     @PostConstruct
     public void init() {
-        setOrder(collectionInitializerHelper,
+        setOrder(emptyInitializerHelper,
+                applyInitializer,
+                collectionInitializerHelper,
                 primitiveInitializerHelper,
                 defaultInitializerHelper,
                 commonInitializerHelper);

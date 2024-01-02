@@ -1,0 +1,29 @@
+spriteTypes = {
+
+	#### Generic continuous goal icons
+
+	SpriteType = {
+	name = "GFX_goal_continuous_air_production"
+	texturefile = "gfx/interface/goals/goal_continuous_air_production.dds"
+	}
+
+	SpriteType = {
+	name = "GFX_goal_continuous_non_factory_construct"
+	texturefile = "gfx/interface/goals/goal_continuous_non_factory_construct.dds"
+	}
+
+	SpriteType = {
+	name = "GFX_goal_continuous_reduce_training_time"
+	texturefile = "gfx/interface/goals/goal_continuous_reduce_training_time.dds"
+	}
+
+	SpriteType = {
+	name = "GFX_goal_continuous_boost_freedom"
+	texturefile = "gfx/interface/goals/goal_continuous_boost_freedom.dds"
+	}
+
+	SpriteType = {
+	name = "GFX_goal_continuous_suppression"
+	texturefile = "gfx/interface/goals/goal_continuous_suppression.dds"
+	}
+}

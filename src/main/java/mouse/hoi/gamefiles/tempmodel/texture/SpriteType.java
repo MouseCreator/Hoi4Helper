@@ -10,19 +10,22 @@ import java.util.List;
 public class SpriteType {
 
     @ObjField(text = "name")
+    @Priority(10)
     @UseQuotes
     private String name;
     @ObjField(text = "texturefile")
+    @Priority(9)
     @UseQuotes
     private String textureFile;
     @ObjField(text = "effectFile")
     @UseQuotes
     @OmitIfDefault
+    @Priority(8)
     private String effectFile;
     @ObjField(text = "legacy_lazy_load")
     @OmitIfDefault
+    @Priority(-1)
     private Boolean lazyLoad;
     @ObjField(text = "animation")
-    @OmitIfEmpty
     private List<Animation> animationList;
 }

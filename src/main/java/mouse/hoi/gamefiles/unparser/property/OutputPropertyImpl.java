@@ -15,13 +15,15 @@ public class OutputPropertyImpl implements OutputProperty {
     private String value;
     private PropertyType type;
     private PrintStyle printStyle;
-    private final List<OutputProperty> children;
+    private List<OutputProperty> children;
+    private int priority;
     public OutputPropertyImpl() {
         key = "";
         value = "";
         type = PropertyType.BLOCK;
         printStyle = null;
         children = new ArrayList<>();
+        priority = 0;
     }
 
     @Override
@@ -42,6 +44,16 @@ public class OutputPropertyImpl implements OutputProperty {
     @Override
     public void setStyle(PrintStyle printStyle) {
         this.printStyle = printStyle;
+    }
+
+    @Override
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    @Override
+    public int getPriority() {
+        return priority;
     }
 
     @Override
@@ -77,5 +89,10 @@ public class OutputPropertyImpl implements OutputProperty {
     @Override
     public void addChildren(Collection<OutputProperty> newProperty) {
         children.addAll(newProperty);
+    }
+
+    @Override
+    public void setChildren(List<OutputProperty> children) {
+        this.children = children;
     }
 }
