@@ -1,5 +1,6 @@
 package mouse.hoi.gamefiles.unparser.handler;
 
+import mouse.hoi.gamefiles.common.factorytype.FactoryType;
 import mouse.hoi.gamefiles.parser.ModelCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class DefaultValuesManager {
         } else if (clazz.equals(Boolean.class)) {
             return false;
         } else {
-            return modelCreator.lookup(clazz);
+            return modelCreator.lookup(clazz, FactoryType.TO_COMPARE);
         }
     }
 }
