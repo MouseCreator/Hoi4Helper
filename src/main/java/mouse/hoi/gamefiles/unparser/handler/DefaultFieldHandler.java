@@ -3,9 +3,9 @@ package mouse.hoi.gamefiles.unparser.handler;
 import mouse.hoi.exception.UnparsingException;
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.annotation.DefaultField;
+import mouse.hoi.gamefiles.common.annotation.OmitIfAsInDefault;
 import mouse.hoi.gamefiles.common.annotation.OmitIfDefault;
 import mouse.hoi.gamefiles.common.annotation.OmitIfEquals;
-import mouse.hoi.gamefiles.parser.ModelCreator;
 import mouse.hoi.gamefiles.parser.PrimitivesParser;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +19,18 @@ import java.util.Objects;
 public class DefaultFieldHandler {
     private final ParseHelper parseHelper;
     private final PrimitivesParser primitivesParser;
-    private final ModelCreator modelCreator;
+    private final DefaultValuesManager defaultValuesManager;
 
-    public DefaultFieldHandler(ParseHelper parseHelper, PrimitivesParser primitivesParser, ModelCreator modelCreator) {
+    public DefaultFieldHandler(ParseHelper parseHelper, PrimitivesParser primitivesParser, DefaultValuesManager defaultValuesManager) {
         this.parseHelper = parseHelper;
         this.primitivesParser = primitivesParser;
-        this.modelCreator = modelCreator;
+        this.defaultValuesManager = defaultValuesManager;
     }
 
     public boolean isDefaultField(Object model, Field field) {
+        if (field.isAnnotationPresent(OmitIfAsInDefault.class)) {
+            return handleOmitIfAsInDefault(model, field);
+        }
         if (field.isAnnotationPresent(OmitIfDefault.class)) {
             return handleOmitIfDefault(model, field);
         }
@@ -36,12 +39,22 @@ public class DefaultFieldHandler {
         }
         return false;
     }
-
     private boolean handleOmitIfDefault(Object model, Field field) {
-        Class<?> type = field.getType();
+        Class<?> type = model.getClass();
         try {
-            Object defaultValue = modelCreator.lookup(type);
+            Object defaultValue = defaultValuesManager.getDefault(type);
             Object actualValue = parseHelper.getFieldValue(model, field);
+            return Objects.equals(defaultValue, actualValue);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+    private boolean handleOmitIfAsInDefault(Object model, Field field) {
+        Class<?> type = model.getClass();
+        try {
+            Object defaultType = defaultValuesManager.getDefault(type);
+            Object actualValue = parseHelper.getFieldValue(model, field);
+            Object defaultValue = parseHelper.getFieldValue(defaultType, field);
             return Objects.equals(defaultValue, actualValue);
         } catch (NoSuchElementException e) {
             return false;
@@ -66,7 +79,7 @@ public class DefaultFieldHandler {
 
     private boolean canOmitOtherFields(Object model) {
         try {
-            Object defaultValue = modelCreator.lookup(model.getClass());
+            Object defaultValue = defaultValuesManager.getDefault((model.getClass()));
             return compareWithDefaultAndExpectedValues(model, defaultValue);
         } catch (NoSuchElementException e) {
             return false;
