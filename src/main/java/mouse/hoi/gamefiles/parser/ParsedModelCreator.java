@@ -43,7 +43,11 @@ public class ParsedModelCreator implements ModelCreator {
             FactoryFor annotation = method.getAnnotation(FactoryFor.class);
             Map<FactoryType, FactoryWithMethod> innerMap = map.computeIfAbsent(returnType, k -> new HashMap<>());
             for (FactoryType type : annotation.type()) {
-                innerMap.put(type, new FactoryWithMethod(method, object));
+                FactoryWithMethod other = innerMap.put(type, new FactoryWithMethod(method, object));
+                if (other != null) {
+                    throw new IllegalStateException("Multiple factories available for class " + returnType.getSimpleName()
+                    + " and type " + type.name() + ": ");
+                }
             }
         }
 
