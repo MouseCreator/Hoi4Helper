@@ -5,7 +5,7 @@ import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 
 import java.util.List;
 
-public interface CollectionUnparser {
-    boolean isCollectionModel(Object model);
+public interface CollectionTypeHandler {
+    boolean canHandle(Object model);
     List<OutputProperty> unparseCollection(Object model, OutputPropertyBuilder builder);
 }
