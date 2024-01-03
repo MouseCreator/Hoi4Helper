@@ -1,7 +1,7 @@
-package mouse.hoi.gamefiles.tempmodel.texture;
+package mouse.hoi.gamefiles.tempmodel.interfacetexture;
 
 import lombok.Data;
-import mouse.hoi.gamefiles.tempmodel.common.SimpleCollection;
+import mouse.hoi.gamefiles.tempmodel.extras.SimpleCollection;
 import mouse.hoi.gamefiles.common.annotation.Block;
 import mouse.hoi.gamefiles.common.annotation.ObjField;
 

@@ -1,7 +1,7 @@
-package mouse.hoi.gamefiles.tempmodel.texture;
+package mouse.hoi.gamefiles.tempmodel.interfacetexture;
 
 import lombok.Data;
-import mouse.hoi.gamefiles.tempmodel.DoublePosition;
+import mouse.hoi.gamefiles.tempmodel.extras.position.DoublePosition;
 import mouse.hoi.gamefiles.common.annotation.Accuracy;
 import mouse.hoi.gamefiles.common.annotation.Block;
 import mouse.hoi.gamefiles.common.annotation.ObjField;

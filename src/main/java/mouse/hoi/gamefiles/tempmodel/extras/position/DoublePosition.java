@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.tempmodel;
+package mouse.hoi.gamefiles.tempmodel.extras.position;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

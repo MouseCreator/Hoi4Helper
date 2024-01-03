@@ -1,10 +1,10 @@
-package mouse.hoi.gamefiles.tempmodel.type;
+package mouse.hoi.gamefiles.tempmodel.common.countrytags;
 
 import lombok.Data;
 import mouse.hoi.gamefiles.common.annotation.AnyKey;
 import mouse.hoi.gamefiles.common.annotation.SkipDeclaration;
 import mouse.hoi.gamefiles.common.annotation.UseQuotes;
-import mouse.hoi.gamefiles.tempmodel.common.SimpleMap;
+import mouse.hoi.gamefiles.tempmodel.extras.SimpleMap;
 
 import java.util.HashMap;
 import java.util.Map;

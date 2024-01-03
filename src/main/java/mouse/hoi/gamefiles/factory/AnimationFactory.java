@@ -1,7 +1,7 @@
 package mouse.hoi.gamefiles.factory;
 
-import mouse.hoi.gamefiles.tempmodel.DoublePosition;
-import mouse.hoi.gamefiles.tempmodel.texture.Animation;
+import mouse.hoi.gamefiles.tempmodel.extras.position.DoublePosition;
+import mouse.hoi.gamefiles.tempmodel.interfacetexture.Animation;
 import mouse.hoi.gamefiles.common.annotation.Factory;
 import mouse.hoi.gamefiles.common.annotation.FactoryFor;
 import mouse.hoi.util.DefConstants;

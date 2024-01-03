@@ -1,7 +1,7 @@
 package mouse.hoi.gamefiles.factory;
 
-import mouse.hoi.gamefiles.tempmodel.texture.SpriteType;
-import mouse.hoi.gamefiles.tempmodel.texture.SpriteTypes;
+import mouse.hoi.gamefiles.tempmodel.interfacetexture.SpriteType;
+import mouse.hoi.gamefiles.tempmodel.interfacetexture.SpriteTypes;
 import mouse.hoi.gamefiles.common.annotation.Factory;
 import mouse.hoi.gamefiles.common.annotation.FactoryFor;
 import org.springframework.stereotype.Component;

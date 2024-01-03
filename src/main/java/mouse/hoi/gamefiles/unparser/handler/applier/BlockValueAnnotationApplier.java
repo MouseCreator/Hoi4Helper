@@ -26,7 +26,7 @@ public class BlockValueAnnotationApplier implements BuilderAnnotationApplier, In
     private OutputPropertyInitializer initializer;
     @Override
     public void apply(OutputPropertyBuilder builder, Object model) {
-        List<Field> fromBlockValue = parseHelper.getFieldsWithAnnotation(model.getClass(), FromBlockValue.class);
+        List<Field> fromBlockValue = parseHelper.getFieldsWithAnnotation(model, FromBlockValue.class);
         if (fromBlockValue.isEmpty()) {
             return;
         }

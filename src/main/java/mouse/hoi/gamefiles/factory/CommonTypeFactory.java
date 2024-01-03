@@ -2,7 +2,7 @@ package mouse.hoi.gamefiles.factory;
 
 import mouse.hoi.gamefiles.common.annotation.Factory;
 import mouse.hoi.gamefiles.common.annotation.FactoryFor;
-import mouse.hoi.gamefiles.tempmodel.type.CountryTags;
+import mouse.hoi.gamefiles.tempmodel.common.countrytags.CountryTags;
 import org.springframework.stereotype.Component;
 
 @Component

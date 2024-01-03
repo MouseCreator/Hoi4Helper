@@ -20,7 +20,7 @@ public class KeyValueAnnotationApplier implements BuilderAnnotationApplier, Init
     private OutputPropertyInitializer initializer;
     @Override
     public void apply(OutputPropertyBuilder builder, Object model) {
-        List<Field> fromBlockValue = parseHelper.getFieldsWithAnnotation(model.getClass(), FromKeyValue.class);
+        List<Field> fromBlockValue = parseHelper.getFieldsWithAnnotation(model, FromKeyValue.class);
         if (fromBlockValue.isEmpty()) {
             return;
         }

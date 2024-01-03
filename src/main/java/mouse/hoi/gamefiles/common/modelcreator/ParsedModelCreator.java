@@ -71,7 +71,7 @@ public class ParsedModelCreator implements ModelCreator {
     private FactoryWithMethod getFactoryWithMethod(Class<?> className, FactoryType factoryType) {
         Map<FactoryType, FactoryWithMethod> innerMap = map.get(className);
         if (innerMap ==null) {
-            throw new NoSuchElementException("Any factory for class " + className + " provided");
+            throw new NoSuchElementException("No factory for class " + className + " provided");
         }
         FactoryWithMethod factoryWithMethod = innerMap.get(factoryType);
         if (factoryWithMethod == null) {

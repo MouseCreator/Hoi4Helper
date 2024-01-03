@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.tempmodel.texture;
+package mouse.hoi.gamefiles.tempmodel.interfacetexture;
 
 import lombok.Data;
 import mouse.hoi.gamefiles.common.annotation.*;

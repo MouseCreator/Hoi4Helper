@@ -36,7 +36,8 @@ public class PrimitivesParserImpl implements PrimitivesParser {
     }
 
     public boolean isPrimitiveClass(Class<?> clazz) {
-        return List.of(String.class, Integer.class, Boolean.class, Long.class, Double.class).contains(clazz);
+        return List.of(String.class, Integer.class, Boolean.class, Long.class, Double.class,
+                int.class, double.class, boolean.class, long.class).contains(clazz);
     }
 
     private String processStringValue(List<Annotation> annotations, String value) {
@@ -60,13 +61,13 @@ public class PrimitivesParserImpl implements PrimitivesParser {
     }
 
     private Object processNotStringValue(Class<?> clazz, List<Annotation> annotations, String value) {
-        if (clazz == Integer.class) {
+        if (clazz == Integer.class || clazz == int.class) {
             return Integer.parseInt(value);
-        } else if (clazz == Long.class) {
+        } else if (clazz == Long.class || clazz == long.class) {
             return Long.parseLong(value);
-        } else if (clazz == Double.class) {
+        } else if (clazz == Double.class || clazz == double.class) {
             return processDouble(annotations, value);
-        } else if (clazz == Boolean.class) {
+        } else if (clazz == Boolean.class || clazz == boolean.class) {
             return processBoolean(value);
         } else {
             throw new IllegalArgumentException("Unknown field type for String value processor: "+ clazz.getSimpleName());

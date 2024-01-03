@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 @Service
 public class CollectionKeyParsingAnnotationHandler implements ParsingAnnotationHandler {
 
@@ -31,7 +30,7 @@ public class CollectionKeyParsingAnnotationHandler implements ParsingAnnotationH
     @Override
     public void handle(Object model, List<Property> propertyList, List<Property> unusedProperties) {
         List<Field> collectionKeyFields = fieldHelper.getFieldsWithAnnotation(model, CollectionKey.class);
-        HashMap<CollectionType, List<Property>> collectionTypeMap = splitByCollectionTypes(propertyList);
+        HashMap<CollectionType, List<Property>> collectionTypeMap = splitByCollectionTypes(propertyList, collectionKeyFields);
 
         for (CollectionType type : collectionTypeMap.keySet()) {
             List<Field> fields = fieldsOfType(collectionKeyFields, type);
@@ -53,13 +52,20 @@ public class CollectionKeyParsingAnnotationHandler implements ParsingAnnotationH
                 .toList();
     }
 
-    private HashMap<CollectionType, List<Property>> splitByCollectionTypes(List<Property> propertyList) {
+    private HashMap<CollectionType, List<Property>> splitByCollectionTypes(List<Property> propertyList,
+                                                                           List<Field> fields) {
         HashMap<CollectionType, List<Property>> map = new HashMap<>();
+        Set<CollectionType> types = new HashSet<>();
+        for (Field field : fields) {
+            CollectionType type = field.getAnnotation(CollectionKey.class).type();
+            types.add(type);
+        }
         for (Property property : propertyList) {
             if (property.type()== PropertyType.SIMPLE)
                 continue;
             List<CollectionType> typesForKey = collectionTypeManager.findTypeForToken(property.getKey());
-            for (CollectionType type : typesForKey) {
+            types.retainAll(typesForKey);
+            for (CollectionType type : types) {
                 List<Property> propertiesOfType = map.computeIfAbsent(type, t -> new ArrayList<>());
                 propertiesOfType.add(property);
             }

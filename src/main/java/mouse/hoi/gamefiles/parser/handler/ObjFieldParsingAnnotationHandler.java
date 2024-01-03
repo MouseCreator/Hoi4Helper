@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 @Service
 public class ObjFieldParsingAnnotationHandler implements ParsingAnnotationHandler {
@@ -48,7 +48,7 @@ public class ObjFieldParsingAnnotationHandler implements ParsingAnnotationHandle
 
     private HashMap<String, List<Property>> splitByKeys(List<Property> propertyList, List<Field> objFields) {
         HashMap<String, List<Property>> map = new HashMap<>();
-        List<String> keys = new ArrayList<>();
+        HashSet<String> keys = new HashSet<>();
         for (Field field : objFields) {
             String text = field.getAnnotation(ObjField.class).text();
             keys.add(text);

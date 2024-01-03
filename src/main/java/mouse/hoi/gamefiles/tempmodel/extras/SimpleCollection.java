@@ -1,4 +1,4 @@
-package mouse.hoi.gamefiles.tempmodel.common;
+package mouse.hoi.gamefiles.tempmodel.extras;
 
 import java.util.Collection;
 

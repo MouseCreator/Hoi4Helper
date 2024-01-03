@@ -1,8 +1,8 @@
 package mouse.hoi.gamefiles.transform;
 
-import mouse.hoi.gamefiles.tempmodel.common.SimpleCollection;
+import mouse.hoi.gamefiles.tempmodel.extras.SimpleCollection;
 import mouse.hoi.gamefiles.common.modelcreator.ModelCreator;
-import mouse.hoi.gamefiles.tempmodel.common.SimpleMap;
+import mouse.hoi.gamefiles.tempmodel.extras.SimpleMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

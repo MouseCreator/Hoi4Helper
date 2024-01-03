@@ -1,7 +1,7 @@
 package mouse.hoi.gamefiles.transform;
 
-import mouse.hoi.gamefiles.tempmodel.common.SimpleCollection;
-import mouse.hoi.gamefiles.tempmodel.common.SimpleMap;
+import mouse.hoi.gamefiles.tempmodel.extras.SimpleCollection;
+import mouse.hoi.gamefiles.tempmodel.extras.SimpleMap;
 
 import java.util.Collection;
 

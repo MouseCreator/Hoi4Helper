@@ -4,8 +4,10 @@ import mouse.hoi.config.spring.TestConfig;
 import mouse.hoi.gamefiles.parser.GameFileParseService;
 import mouse.hoi.gamefiles.parser.parse.TokenCollection;
 import mouse.hoi.gamefiles.parser.result.ParsingResult;
-import mouse.hoi.gamefiles.tempmodel.texture.SpriteTypes;
-import mouse.hoi.gamefiles.tempmodel.type.CountryTags;
+import mouse.hoi.gamefiles.tempmodel.common.resources.Resource;
+import mouse.hoi.gamefiles.tempmodel.common.resources.Resources;
+import mouse.hoi.gamefiles.tempmodel.interfacetexture.SpriteTypes;
+import mouse.hoi.gamefiles.tempmodel.common.countrytags.CountryTags;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.unparsing.PropertyToStringUnparser;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,14 +46,14 @@ class OutputPropertyInitializerImplTest {
         SpriteTypes instance = spriteTypesParsingResult.getFirst();
 
         assertEquals(expectedElements, instance.getSpriteTypes().size());
-        OutputPropertyInitializer unparser = context.getBean(OutputPropertyInitializer.class);
-        unparseAndcompareWithInitial(unparser.initializeProperty(instance), context, file);
+        unparseAndcompareWithInitial(instance, context, file);
     }
 
-    private void unparseAndcompareWithInitial(List<OutputProperty> unparser, AnnotationConfigApplicationContext context, String file) {
+    private void unparseAndcompareWithInitial(Object instance, AnnotationConfigApplicationContext context, String file) {
+        OutputPropertyInitializer unparser = context.getBean(OutputPropertyInitializer.class);
+        List<OutputProperty> properties = unparser.initializeProperty(instance);
         PropertyToStringUnparser propertyUnparser = context.getBean(PropertyToStringUnparser.class);
-        String unparsedContent = propertyUnparser.unparse(unparser);
-
+        String unparsedContent = propertyUnparser.unparse(properties);
         TokenCollection tokensBefore = unparseTestHelper.tokenize(file);
         TokenCollection tokensAfter = unparseTestHelper.tokenizeContent(unparsedContent);
 
@@ -64,15 +66,29 @@ class OutputPropertyInitializerImplTest {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class);
         GameFileParseService parser = context.getBean(GameFileParseService.class);
 
-        ParsingResult<CountryTags> spriteTypesParsingResult = parser.parseAndGet(CountryTags.class, filename);
-        assertEquals(1, spriteTypesParsingResult.size());
-        CountryTags countryTags = spriteTypesParsingResult.getFirst();
+        ParsingResult<CountryTags> result = parser.parseAndGet(CountryTags.class, filename);
+        assertEquals(1, result.size());
+        CountryTags countryTags = result.getFirst();
         Map<String, String> resultMap = countryTags.getMap();
         assertEquals(15, resultMap.size());
 
-        OutputPropertyInitializer unparser = context.getBean(OutputPropertyInitializer.class);
+        unparseAndcompareWithInitial(countryTags, context, filename);
 
-        unparseAndcompareWithInitial(unparser.initializeProperty(countryTags), context, filename);
+    }
+
+    @Test
+    void initializeResources() {
+        String filename= "src/test/resources/assets/parse/SampleResources_01.txt";
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class);
+        GameFileParseService parser = context.getBean(GameFileParseService.class);
+
+        ParsingResult<Resources> result = parser.parseAndGet(Resources.class, filename);
+        assertEquals(1, result.size());
+        Resources resources = result.getFirst();
+        List<Resource> resourceList = resources.getResourceList();
+        assertEquals(6, resourceList.size());
+
+        unparseAndcompareWithInitial(resources, context, filename);
 
     }
 }
