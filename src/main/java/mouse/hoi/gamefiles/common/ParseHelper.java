@@ -11,69 +11,23 @@ import java.util.function.Predicate;
 @Service
 public class ParseHelper {
 
-    public void push(Object model, Field field, Object toAdd) {
-        try {
-            field.setAccessible(true);
-            pushToList(model, field, toAdd);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public boolean testGeneric(Field field, Object... toAdd)  {
+        Type genericType = field.getGenericType();
+        if (!(genericType instanceof ParameterizedType parameterizedType)) {
+            return false;
         }
-    }
-    private void pushToList(Object model, Field field, Object toAdd) throws InstantiationException,
-            IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Object list = getCollectionObject(model, field);
-        boolean valid = testGeneric(field, list, toAdd);
-        if (!valid) {
-            throw new IllegalArgumentException("Parsing collection field " + field.getName() + ": Argument is not of Generic type!");
+        Type[] typeArguments = parameterizedType.getActualTypeArguments();
+        if (typeArguments.length != toAdd.length) {
+            return false;
         }
-        if (list instanceof List) {
-            Method add = List.class.getDeclaredMethod("add", Object.class);
-            add.invoke(list, toAdd);
-            field.set(model, list);
-        } else if (list instanceof Set) {
-            Method add = Set.class.getDeclaredMethod("add", Object.class);
-            add.invoke(list, toAdd);
-            field.set(model, list);
-        }
-    }
-
-    private Object getCollectionObject(Object instance, Field field)
-            throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-        Object list = field.get(instance);
-        if (list != null) {
-           return list;
-        }
-        if (field.getType().isInterface()) {
-            if (field.getType().isAssignableFrom(List.class)) {
-                list = new ArrayList<>();
-            } else if (field.getType().isAssignableFrom(Set.class)) {
-                list = new HashSet<>();
-            } else {
-                throw new IllegalAccessException("Collection field in neither List nor Set");
-            }
-        } else {
-            list = field.getType().getConstructor().newInstance();
-        }
-        return list;
-    }
-
-    private boolean testGeneric(Field field, Object list, Object toAdd)  {
-        if (list instanceof List || list instanceof Set) {
-            Type genericType = field.getGenericType();
-            if (genericType instanceof ParameterizedType parameterizedType) {
-                Type[] typeArguments = parameterizedType.getActualTypeArguments();
-                if (typeArguments.length == 1) {
-                    Type listType = typeArguments[0];
-                    return listType.equals(toAdd.getClass());
-                }
+        for (int i = 0; i < typeArguments.length; i++) {
+            Type listType = typeArguments[i];
+            Object obj = toAdd[i];
+            if(!listType.equals(obj.getClass())) {
+                return false;
             }
         }
-        return false;
-    }
-
-    public boolean isCollectionField(Field field) {
-        Class<?> fieldType = field.getType();
-        return List.class.isAssignableFrom(fieldType) || Set.class.isAssignableFrom(fieldType);
+        return true;
     }
 
     public Class<?> getGeneric(Field field) {
@@ -133,12 +87,26 @@ public class ParseHelper {
     }
 
     public Object getFieldValue(Object model, Field field) {
-        field.setAccessible(true);
         try {
+            field.setAccessible(true);
             return field.get(model);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Cannot get field " + field.getName()
                     + " of model " + model.getClass().getSimpleName(), e);
         }
+    }
+
+    public List<Class<?>> getAllGenerics(Field field) {
+        Type genericType = field.getGenericType();
+
+        if (genericType instanceof ParameterizedType parameterizedType) {
+            Type[] typeArguments = parameterizedType.getActualTypeArguments();
+            List<Class<?>> list = new ArrayList<>();
+            for (Type type : typeArguments) {
+                list.add((Class<?>) type);
+            }
+            return list;
+        }
+        throw new IllegalArgumentException("Generic type is not instance of Parametrized type for field: " + field);
     }
 }

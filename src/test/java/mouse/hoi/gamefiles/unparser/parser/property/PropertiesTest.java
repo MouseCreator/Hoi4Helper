@@ -1,4 +1,4 @@
-package mouse.hoi.parser.property;
+package mouse.hoi.gamefiles.unparser.parser.property;
 
 import mouse.hoi.gamefiles.parser.property.BlockProperty;
 import mouse.hoi.gamefiles.parser.property.FieldValueProperty;

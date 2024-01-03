@@ -1,7 +1,7 @@
 package mouse.hoi.gamefiles.unparser.handler;
 
 import mouse.hoi.gamefiles.common.factorytype.FactoryType;
-import mouse.hoi.gamefiles.parser.ModelCreator;
+import mouse.hoi.gamefiles.common.modelcreator.ModelCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

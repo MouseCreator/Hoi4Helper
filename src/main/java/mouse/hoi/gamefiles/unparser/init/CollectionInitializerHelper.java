@@ -1,26 +1,22 @@
 package mouse.hoi.gamefiles.unparser.init;
 
-import mouse.hoi.gamefiles.common.ParseHelper;
-import mouse.hoi.gamefiles.common.annotation.ShowIfEmpty;
-import mouse.hoi.gamefiles.unparser.InitializerCaller;
-import mouse.hoi.gamefiles.unparser.OutputPropertyInitializer;
+
+import mouse.hoi.gamefiles.unparser.collection.CollectionUnparser;
 import mouse.hoi.gamefiles.unparser.property.OutputProperty;
 import mouse.hoi.gamefiles.unparser.property.OutputPropertyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 @Service
-public class CollectionInitializerHelper implements InitializerHelper, InitializerCaller {
+public class CollectionInitializerHelper implements InitializerHelper {
 
-    private final ParseHelper parseHelper;
+    private final CollectionUnparser collectionUnparser;
     private InitializerHelper next = null;
-    private OutputPropertyInitializer outputPropertyInitializer;
     @Autowired
-    public CollectionInitializerHelper(ParseHelper parseHelper) {
-        this.parseHelper = parseHelper;
+    public CollectionInitializerHelper(CollectionUnparser collectionUnparser) {
+        this.collectionUnparser = collectionUnparser;
     }
 
     @Override
@@ -30,29 +26,9 @@ public class CollectionInitializerHelper implements InitializerHelper, Initializ
 
     @Override
     public List<OutputProperty> initialize(OutputPropertyBuilder builder, Object model) {
-        if (parseHelper.isCollectionModel(model)) {
-            return processCollection(model, builder);
+        if (collectionUnparser.isCollectionModel(model)) {
+            return collectionUnparser.unparseCollection(model, builder);
         }
         return next == null ? List.of() : next.initialize(builder, model);
-    }
-
-    private List<OutputProperty> processCollection(Object model, OutputPropertyBuilder builder) {
-
-        Collection<?> collection = (Collection<?>) model;
-        List<OutputProperty> properties = new ArrayList<>();
-        if (collection.isEmpty()) {
-            if (!builder.hasAnnotation(ShowIfEmpty.class)) {
-                return properties;
-            }
-        }
-        for (Object obj : collection) {
-            properties.addAll(outputPropertyInitializer.initializeProperty(obj, builder.duplicate()));
-        }
-        return properties;
-    }
-
-    @Override
-    public void setInitializer(OutputPropertyInitializer initializer) {
-        this.outputPropertyInitializer = initializer;
     }
 }

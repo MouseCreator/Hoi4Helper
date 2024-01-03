@@ -1,15 +1,11 @@
 package mouse.hoi.gamefiles.parser.handler;
 
 import mouse.hoi.exception.PropertyParseException;
-import mouse.hoi.gamefiles.common.ParseHelper;
-import mouse.hoi.gamefiles.parser.PrimitivesParser;
-import mouse.hoi.gamefiles.parser.PropertyToModelParser;
 import mouse.hoi.gamefiles.parser.property.Property;
 import mouse.hoi.gamefiles.common.annotation.Ordered;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,18 +13,10 @@ import java.util.List;
 
 @Service
 public class AnnotationHandlerHelper {
-    private final PrimitivesParser primitivesParser;
-    private final ParseHelper parseHelper;
-    private PropertyToModelParser propertyToModelParser;
+    private final InsertionHandler insertionHandler;
     @Autowired
-    public AnnotationHandlerHelper(
-                                   PrimitivesParser primitivesParser, ParseHelper parseHelper) {
-        this.primitivesParser = primitivesParser;
-        this.parseHelper = parseHelper;
-    }
-
-    public void setPropertyToModelParser(PropertyToModelParser propertyToModelParser) {
-        this.propertyToModelParser = propertyToModelParser;
+    public AnnotationHandlerHelper(InsertionHandler insertionHandler) {
+        this.insertionHandler = insertionHandler;
     }
 
     public void initialize(Object model, List<Field> fieldList, List<Property> propertyList) {
@@ -47,7 +35,7 @@ public class AnnotationHandlerHelper {
                 .filter(f -> !f.isAnnotationPresent(Ordered.class)).toList();
         for (Field field : notOrderedFields) {
             for (Property property : propertyList) {
-                initializeFieldWithProperty(model, field, property);
+                insertionHandler.initializeFieldWithProperty(model, field, property);
             }
         }
     }
@@ -61,31 +49,10 @@ public class AnnotationHandlerHelper {
                 continue;
             }
             for (Field orderedField : fieldOrdered) {
-                initializeFieldWithProperty(model, orderedField, property);
+                insertionHandler.initializeFieldWithProperty(model, orderedField, property);
             }
         }
     }
-
-    public void initializeFieldWithProperty(Object model, Field field, Property property) {
-        List<Annotation> annotations = parseHelper.getAnnotations(field);
-        if (parseHelper.isCollectionField(field)) {
-            Class<?> generic = parseHelper.getGeneric(field);
-            Object value = getPropertyValue(generic, annotations, property);
-            parseHelper.push(model, field, value);
-        } else {
-            Object value = getPropertyValue(field.getType(), annotations, property);
-            parseHelper.setField(model, field, value);
-        }
-    }
-
-    private Object getPropertyValue(Class<?> clazz, List<Annotation> annotations, Property property) {
-        if (primitivesParser.isPrimitiveClass(clazz)) {
-            return primitivesParser.parsePrimitiveType(clazz, annotations, property);
-        }
-        return propertyToModelParser.getModel(clazz, property);
-    }
-
-
 
     private HashMap<Integer, List<Field>> getWithOrderAnnotation(List<Field> fieldList) {
         HashMap<Integer, List<Field>> fieldMap = new HashMap<>();

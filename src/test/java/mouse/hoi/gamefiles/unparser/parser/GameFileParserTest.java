@@ -1,4 +1,4 @@
-package mouse.hoi.parser;
+package mouse.hoi.gamefiles.unparser.parser;
 
 import mouse.hoi.config.spring.TestConfig;
 import mouse.hoi.gamefiles.factory.AnimationFactory;
