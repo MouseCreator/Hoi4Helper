@@ -1,9 +1,8 @@
-package mouse.hoi.gamefiles.unparser.parser.propertyfactory;
+package mouse.hoi.gamefiles.parser.propertyfactory;
 
 import mouse.hoi.gamefiles.parser.property.BlockProperty;
 import mouse.hoi.gamefiles.parser.property.FieldValueProperty;
 import mouse.hoi.gamefiles.parser.property.SimpleProperty;
-import mouse.hoi.gamefiles.parser.propertyfactory.PropertyFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

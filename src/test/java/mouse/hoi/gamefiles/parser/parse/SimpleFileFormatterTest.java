@@ -1,6 +1,5 @@
-package mouse.hoi.gamefiles.unparser.parser.parse;
+package mouse.hoi.gamefiles.parser.parse;
 
-import mouse.hoi.gamefiles.parser.parse.SimpleFileFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

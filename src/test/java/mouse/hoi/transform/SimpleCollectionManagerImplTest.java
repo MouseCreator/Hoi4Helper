@@ -27,7 +27,7 @@ class SimpleCollectionManagerImplTest {
         SpriteTypes spriteTypes2 = factory.getSpriteTypes();
 
         spriteTypes2.getSpriteTypes().add(factory.getSpriteType());
-        SpriteTypes merge = simpleCollectionManager.merge(SpriteTypes.class, List.of(spriteTypes1, spriteTypes2));
+        SpriteTypes merge = simpleCollectionManager.mergeLists(SpriteTypes.class, List.of(spriteTypes1, spriteTypes2));
         assertEquals(3, merge.getSpriteTypes().size());
     }
 }

@@ -1,9 +1,6 @@
-package mouse.hoi.gamefiles.unparser.parser.property;
+package mouse.hoi.gamefiles.parser.property;
 
-import mouse.hoi.gamefiles.parser.property.BlockProperty;
-import mouse.hoi.gamefiles.parser.property.FieldValueProperty;
-import mouse.hoi.gamefiles.parser.property.Property;
-import mouse.hoi.gamefiles.parser.property.SimpleProperty;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
