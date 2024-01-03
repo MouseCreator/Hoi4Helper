@@ -13,6 +13,8 @@ import java.util.List;
 public class SimpleParsingAnnotationHandler implements ParsingAnnotationHandler {
     private final ParseHelper fieldHelper;
     private final AnnotationHandlerHelper annotationHandlerHelper;
+
+    private ParsingAnnotationHandler next = null;
     @Autowired
     public SimpleParsingAnnotationHandler(ParseHelper fieldHelper, AnnotationHandlerHelper annotationHandlerHelper) {
         this.fieldHelper = fieldHelper;
@@ -20,10 +22,17 @@ public class SimpleParsingAnnotationHandler implements ParsingAnnotationHandler 
     }
 
     @Override
-    public void handle(Object model, List<Property> propertyList) {
+    public void handle(Object model, List<Property> propertyList, List<Property> unusedProperties) {
         List<Field> simpleFields = fieldHelper.getFieldsWithAnnotation(model, Simple.class);
         List<Property> simpleProperties = getSimpleAnnotations(propertyList);
+        unusedProperties.removeAll(simpleProperties);
         annotationHandlerHelper.initialize(model, simpleFields, simpleProperties);
+        next.handle(model, propertyList, unusedProperties);
+    }
+
+    @Override
+    public void setNext(ParsingAnnotationHandler parsingAnnotationHandler) {
+        next = parsingAnnotationHandler;
     }
 
     private List<Property> getSimpleAnnotations(List<Property> propertyList) {

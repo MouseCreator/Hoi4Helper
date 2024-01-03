@@ -45,7 +45,7 @@ public class MapCollectionParser implements ParsingCollectionHandler, InsertionC
         if (property.type()== PropertyType.SIMPLE) {
             throw new PropertyParseException("Unable to convert simple property to a map!");
         }
-        Object key = primitivesParser.parsePrimitiveType(property.getKey(), keyClass, parseHelper.getAnnotations(field));
+        Object key = primitivesParser.parsePrimitiveType(property.getKey(), keyClass, new ArrayList<>());
         Object value = insertionHandler.getPropertyValue(valueClass, field, property);
         push(model, field, key, value);
     }

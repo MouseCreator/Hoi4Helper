@@ -34,7 +34,7 @@ public class MapCollectionTypeHandlerImpl implements CollectionTypeHandler, Init
         List<OutputProperty> outputProperties = new ArrayList<>();
         for (Object keyObj : map.keySet()) {
             OutputPropertyBuilder instanceBuilder = builder.duplicate();
-            String key = primitivesParser.convertToString(keyObj, instanceBuilder.getAnnotations());
+            String key = primitivesParser.convertToString(keyObj, new ArrayList<>());
             instanceBuilder.withKey(key);
             outputProperties.addAll(outputPropertyInitializer.initializeProperty(map.get(keyObj), instanceBuilder));
 

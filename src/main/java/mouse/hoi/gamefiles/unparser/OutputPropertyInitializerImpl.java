@@ -34,11 +34,18 @@ public class OutputPropertyInitializerImpl implements OutputPropertyInitializer 
     public List<OutputProperty> initializeProperty(Object model) {
         OutputPropertyBuilder builder = new OutputPropertyBuilder();
         builder.withType(PropertyType.SIMPLE);
+        if (isSkipDeclaration(model)) {
+            builder.withKey("SKIP");
+        }
         List<OutputProperty> properties = initializeProperty(model, builder);
-        if (model.getClass().isAnnotationPresent(SkipDeclaration.class)) {
+        if (isSkipDeclaration(model)) {
             properties = handleSkipDeclaration(model, properties);
         }
         return properties;
+    }
+
+    private static boolean isSkipDeclaration(Object model) {
+        return model.getClass().isAnnotationPresent(SkipDeclaration.class);
     }
 
     private List<OutputProperty> handleSkipDeclaration(Object model, List<OutputProperty> properties) {

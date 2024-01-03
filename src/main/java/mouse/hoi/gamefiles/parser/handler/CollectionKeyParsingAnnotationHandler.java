@@ -19,6 +19,7 @@ public class CollectionKeyParsingAnnotationHandler implements ParsingAnnotationH
     private final ParseHelper fieldHelper;
     private final AnnotationHandlerHelper annotationHandlerHelper;
     private final CollectionTypeManager collectionTypeManager;
+    private ParsingAnnotationHandler next;
     @Autowired
     public CollectionKeyParsingAnnotationHandler(ParseHelper fieldHelper,
                                                  AnnotationHandlerHelper annotationHandlerHelper,
@@ -28,15 +29,22 @@ public class CollectionKeyParsingAnnotationHandler implements ParsingAnnotationH
         this.collectionTypeManager = collectionTypeManager;
     }
     @Override
-    public void handle(Object model, List<Property> propertyList) {
+    public void handle(Object model, List<Property> propertyList, List<Property> unusedProperties) {
         List<Field> collectionKeyFields = fieldHelper.getFieldsWithAnnotation(model, CollectionKey.class);
         HashMap<CollectionType, List<Property>> collectionTypeMap = splitByCollectionTypes(propertyList);
 
         for (CollectionType type : collectionTypeMap.keySet()) {
             List<Field> fields = fieldsOfType(collectionKeyFields, type);
             List<Property> properties = collectionTypeMap.get(type);
+            unusedProperties.removeAll(properties);
             annotationHandlerHelper.initialize(model, fields, properties);
         }
+        next.handle(model, propertyList, unusedProperties);
+    }
+
+    @Override
+    public void setNext(ParsingAnnotationHandler parsingAnnotationHandler) {
+        next = parsingAnnotationHandler;
     }
 
     private List<Field> fieldsOfType(List<Field> originFields, CollectionType type) {

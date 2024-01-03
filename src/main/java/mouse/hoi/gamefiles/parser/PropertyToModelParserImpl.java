@@ -3,9 +3,9 @@ package mouse.hoi.gamefiles.parser;
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.modelcreator.ModelCreator;
+import mouse.hoi.gamefiles.parser.handler.ParsingAnnotationManager;
 import mouse.hoi.gamefiles.parser.handler.ParsingDefaultInitializationHandler;
 import mouse.hoi.gamefiles.parser.handler.InsertionHandler;
-import mouse.hoi.gamefiles.parser.handler.ParsingAnnotationHandler;
 import mouse.hoi.gamefiles.parser.property.BlockProperty;
 import mouse.hoi.gamefiles.parser.property.Property;
 import mouse.hoi.gamefiles.common.annotation.FromBlockValue;
@@ -22,19 +22,19 @@ import java.util.List;
 public class PropertyToModelParserImpl implements PropertyToModelParser {
     private final ParseHelper parseHelper;
     private final ModelCreator modelCreator;
-    private final List<ParsingAnnotationHandler> parsingAnnotationHandlers;
+    private final ParsingAnnotationManager parsingAnnotationManager;
     private final InsertionHandler insertionHandler;
     private final ParsingDefaultInitializationHandler defaultInitializationHandler;
 
     @Autowired
     public PropertyToModelParserImpl(ParseHelper parseHelper,
                                      ModelCreator modelCreator,
-                                     List<ParsingAnnotationHandler> parsingAnnotationHandlers,
+                                     ParsingAnnotationManager parsingAnnotationManager,
                                      InsertionHandler insertionHandler,
                                      ParsingDefaultInitializationHandler defaultInitializationHandler) {
         this.parseHelper = parseHelper;
         this.modelCreator = modelCreator;
-        this.parsingAnnotationHandlers = parsingAnnotationHandlers;
+        this.parsingAnnotationManager = parsingAnnotationManager;
         this.insertionHandler = insertionHandler;
         this.defaultInitializationHandler = defaultInitializationHandler;
     }
@@ -63,9 +63,7 @@ public class PropertyToModelParserImpl implements PropertyToModelParser {
         List<Property> children = blockProperty.getChildren();
         initializeBlockValue(model, blockProperty);
         initializeKeyValue(model, blockProperty);
-        for (ParsingAnnotationHandler handler : parsingAnnotationHandlers) {
-            handler.handle(model, children);
-        }
+        parsingAnnotationManager.parseWithAnnotations(model, children);
     }
 
     private void initializeBlockValue(Object model, Property property) {
