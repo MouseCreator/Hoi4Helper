@@ -3,14 +3,14 @@ package mouse.hoi.gamefiles.parser;
 import mouse.hoi.exception.PropertyParseException;
 import mouse.hoi.gamefiles.common.ParseHelper;
 import mouse.hoi.gamefiles.common.modelcreator.ModelCreator;
+import mouse.hoi.gamefiles.parser.handler.ParsingDefaultInitializationHandler;
+import mouse.hoi.gamefiles.parser.handler.InsertionHandler;
 import mouse.hoi.gamefiles.parser.handler.ParsingAnnotationHandler;
 import mouse.hoi.gamefiles.parser.property.BlockProperty;
 import mouse.hoi.gamefiles.parser.property.Property;
-import mouse.hoi.gamefiles.common.annotation.DefaultField;
 import mouse.hoi.gamefiles.common.annotation.FromBlockValue;
 import mouse.hoi.gamefiles.common.annotation.FromKeyValue;
 import mouse.hoi.gamefiles.common.annotation.RequireField;
-import mouse.hoi.gamefiles.parser.handler.AnnotationHandlerHelper;
 import mouse.hoi.gamefiles.parser.property.SimpleProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,22 +23,25 @@ public class PropertyToModelParserImpl implements PropertyToModelParser {
     private final ParseHelper parseHelper;
     private final ModelCreator modelCreator;
     private final List<ParsingAnnotationHandler> parsingAnnotationHandlers;
-    private final AnnotationHandlerHelper annotationHandlerHelper;
+    private final InsertionHandler insertionHandler;
+    private final ParsingDefaultInitializationHandler defaultInitializationHandler;
 
     @Autowired
     public PropertyToModelParserImpl(ParseHelper parseHelper,
-                                 ModelCreator modelCreator,
-                                 List<ParsingAnnotationHandler> parsingAnnotationHandlers,
-                                 AnnotationHandlerHelper annotationHandlerHelper) {
+                                     ModelCreator modelCreator,
+                                     List<ParsingAnnotationHandler> parsingAnnotationHandlers,
+                                     InsertionHandler insertionHandler,
+                                     ParsingDefaultInitializationHandler defaultInitializationHandler) {
         this.parseHelper = parseHelper;
         this.modelCreator = modelCreator;
         this.parsingAnnotationHandlers = parsingAnnotationHandlers;
-        this.annotationHandlerHelper = annotationHandlerHelper;
+        this.insertionHandler = insertionHandler;
+        this.defaultInitializationHandler = defaultInitializationHandler;
     }
 
     @PostConstruct
     void init() {
-        annotationHandlerHelper.setPropertyToModelParser(this);
+        insertionHandler.setPropertyToModelParser(this);
     }
 
     public Object getModel(Class<?> tClass, Property property) {
@@ -78,7 +81,7 @@ public class PropertyToModelParserImpl implements PropertyToModelParser {
         }
         SimpleProperty simpleProperty = new SimpleProperty(blockValue);
         for (Field field : fields) {
-            annotationHandlerHelper.initializeFieldWithProperty(model, field, simpleProperty);
+            insertionHandler.initializeFieldWithProperty(model, field, simpleProperty);
         }
     }
 
@@ -89,18 +92,13 @@ public class PropertyToModelParserImpl implements PropertyToModelParser {
         }
         SimpleProperty simpleProperty = new SimpleProperty(property.getKey());
         for (Field field : keyFields) {
-            annotationHandlerHelper.initializeFieldWithProperty(model, field, simpleProperty);
+            insertionHandler.initializeFieldWithProperty(model, field, simpleProperty);
         }
     }
 
     private void parseRegularProperty(Property property, Object model) {
         initializeKeyValue(model, property);
-        List<Field> fields = parseHelper.getFieldsWithAnnotation(model, DefaultField.class);
-        if (fields.isEmpty()) {
-            throw new PropertyParseException("Non-Block Property " + property.print() + " is used to defined a model "
-                    + model.getClass().getSimpleName() + ", but no default field is found");
-        }
-        annotationHandlerHelper.initialize(model, fields, List.of(property));
+        defaultInitializationHandler.initDefaultFields(model, property);
     }
 
     private void validateModel(Object model) {

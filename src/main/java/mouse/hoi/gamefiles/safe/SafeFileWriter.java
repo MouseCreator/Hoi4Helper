@@ -1,4 +1,6 @@
 package mouse.hoi.gamefiles.safe;
 
-public class SafeFileWriter {
+import mouse.hoi.lib.filemanager.FileManager;
+
+public interface SafeFileWriter extends FileManager {
 }
