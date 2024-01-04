@@ -54,6 +54,11 @@ public class SimpleProperty implements Property {
         return PropertyType.SIMPLE;
     }
 
+    @Override
+    public boolean hasKey(String target) {
+        return false;
+    }
+
     public void setValue(String value) {
         this.value = value;
     }

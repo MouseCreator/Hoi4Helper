@@ -105,7 +105,7 @@ public class PropertyParser {
     }
 
     private boolean isEqualSign(String token) {
-        return token.equals("=");
+        return token.equals("=") || token.equals("<") || token.equals(">");
     }
 
     private boolean opensBlock(String token) {
@@ -129,6 +129,6 @@ public class PropertyParser {
         return (firstChar >= 'A' && firstChar <= 'Z') ||
                 (firstChar >= 'a' && firstChar <= 'z') ||
                 (firstChar >= '0' && firstChar <= '9') ||
-                (firstChar == '_');
+                (firstChar == '_') || (firstChar == '@');
     }
 }

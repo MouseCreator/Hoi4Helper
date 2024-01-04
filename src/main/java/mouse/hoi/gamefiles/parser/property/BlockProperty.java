@@ -82,4 +82,9 @@ public class BlockProperty implements Property {
     public PropertyType type() {
         return PropertyType.BLOCK;
     }
+
+    @Override
+    public boolean hasKey(String target) {
+        return target.equals(key);
+    }
 }

@@ -11,4 +11,5 @@ public interface Property {
     List<Property> getChildren();
     String print();
     PropertyType type();
+    boolean hasKey(String target);
 }

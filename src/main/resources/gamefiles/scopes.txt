@@ -1,0 +1,184 @@
+dual_scopes = {
+    always = {
+        %TAG% = {
+            <country>
+        }
+        %state_id% = {
+            <state>
+        }
+        mio:<MIO> = {
+            <mio>
+        }
+        ROOT = {
+            <depends>
+        }
+        THIS = {
+            <depends>
+        }
+        PREV = {
+            <depends>
+        }
+        FROM = {
+            <depends>
+        }
+        event_target:%event_target_key% = {
+            <depends>
+        }
+        var:%variable% = {
+            <depends>
+        }
+    }
+    country = {
+        overlord = {
+            <country>
+        }
+        faction_leader = {
+            <country>
+        }
+        capital_scope = {
+            <state>
+        }
+    }
+    state = {
+        owner = {
+            <country>
+        }
+        controller = {
+            <state>
+        }
+    }
+    character = {
+        owner = {
+            <country>
+        }
+    }
+    combatant = {
+        owner = {
+            <country>
+        }
+    }
+}
+
+trigger_scopes = {
+    always = {
+        all_country = {
+            <country>
+        }
+        any_country = {
+            <country>
+        }
+        all_country_with_original_tag = {
+            original_tag_to_check = %TAG%
+            <country>
+        }
+        all_state = {
+            <state>
+        }
+        any_state = {
+            <state>
+        }
+    }
+    country = {
+        all_other_country = {
+            <country>
+        }
+        any_other_country = {
+            <country>
+        }
+        all_neighbor_country = {
+            <country>
+        }
+        any_neighbor_country = {
+            <country>
+        }
+        any_home_area_neighbor_country = {
+            <country>
+        }
+        all_guaranteed_country = {
+            <country>
+        }
+        all_allied_country = {
+            <country>
+        }
+        any_allied_country = {
+            <country>
+        }
+        all_occupied_country = {
+            <country>
+        }
+        any_occupied_country = {
+            <country>
+        }
+        all_enemy_country = {
+            <country>
+        }
+        any_enemy_country = {
+            <country>
+        }
+        all_subject_countries = {
+            <country>
+        }
+        any_subject_country = {
+            <country>
+        }
+        all_owned_state = {
+            <state>
+        }
+        any_owned_state = {
+            <state>
+        }
+        all_core_state = {
+            <state>
+        }
+        any_core_state = {
+            <state>
+        }
+        all_controlled_state = {
+            <state>
+        }
+        any_controlled_state = {
+            <state>
+        }
+        all_unit_leader = {
+            <unit_leader>
+        }
+        any_unit_leader = {
+            <unit_leader>
+        }
+        all_army_leader = {
+            <unit_leader>
+        }
+        any_army_leader = {
+            <unit_leader>
+        }
+        all_navy_leader = {
+            <unit_leader>
+        }
+        any_navy_leader = {
+            <unit_leader>
+        }
+        all_operative_leader = {
+            <operative>
+        }
+        any_operative_leader = {
+            <operative>
+        }
+        all_character = {
+            <character>
+        }
+        any_character = {
+            <character>
+        }
+    }
+    state = {
+        any_country_with_core = {
+            <country>
+        }
+        all_neighbor_state = {
+            <state>
+        }
+        any_neighbor_state = {
+            <state>
+        }
+    }
+}

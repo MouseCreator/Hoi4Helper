@@ -1,0 +1,31 @@
+#Flow
+AND = {
+     <trigger_block>
+}
+OR = {
+     <trigger_block>
+}
+NOT = {
+     <trigger_block>
+}
+count_triggers = {
+    amount = <int>
+    <trigger_block>
+}
+
+if = {
+    limit = <trigger_block>
+}
+else_if = {
+ <if-trigger>
+}
+else = {
+    <AND-trigger>
+}
+hidden_trigger = {
+    <trigger_block>
+}
+custom_trigger_tooltip = {
+    tooltip = <string>
+    <trigger_block>
+}

@@ -59,4 +59,9 @@ public class FieldValueProperty implements Property {
     public PropertyType type() {
         return PropertyType.FIELD_VALUE;
     }
+
+    @Override
+    public boolean hasKey(String target) {
+        return target.equals(key);
+    }
 }
